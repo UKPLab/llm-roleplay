@@ -1,0 +1,221 @@
+# @package _global_
+action_name: roleplay
+
+action_config:
+  workdir: "./"
+  experiment_name: llms_roleplay
+
+  task:
+    num_turns: 12
+
+    model_A: ???
+
+    model_B:
+      type:
+        _target_: urartu.models.pipeline_model.PipelineModel
+      name: "models--llama-2-hf/13B-Chat"
+      cache_dir: ""
+      dtype: torch.float16
+      non_coherent_max_n: 5
+      non_coherent_r: 2
+      api_token: null
+      generate:
+        max_new_tokens: 4000
+      conv_template:
+        first_turn_input: "[INST] <<SYS>>
+                     You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+
+                     If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+                     <</SYS>>
+                     
+                     <OBJECTIVE> [/INST]"
+        n_th_turn_input: "[INST] <USER_MSG> [/INST]"
+        model_output: "<MODEL_ANSWER>"
+    dataset:
+      instruction:
+        - "You want to know how fast you run different distances. You use a stopwatch to measure the time it takes you to complete a 50-meter, 100-meter, and 200-meter race. You want to know how can you calculate your speed for each race? Based on that, you also want to calculate how many calories you burned during each race."
+        - "You can run at a rate of speed four times faster than you can walk, but you can skip at a rate of speed that is half as fast as you can run. You want to know If you can skip at 3 miles per hour, how many miles can you travel in six hours if you spend one-third of the time and two-thirds of the time running and walking, respectively. Also you are curious about the other way around (one-third of the time walking and two-thirds for running)."
+        - "Every day, you feed each of your chickens three cups of mixed chicken feed, containing seeds, mealworms and vegetables to help keep them healthy. You give the chickens their feed in three separate meals. In the morning, you give your flock of chickens 15 cups of feed. In the afternoon, you give your chickens another 25 cups of feed. You want to know how many cups of feed do you need to give your chickens in the final meal of the day if the size of your flock is 20 chickens?  Also you want to know how much does the chicken egg production rate depend on the feed you give? And if you provide enough feed to your chickens for high-rate egg production."
+        - "You want to make this function better. You want the chatbot to make it recursive to have memory optimal function, but make sure that it doesn’t enter to an infinite loop. After that you want to plug a CLI (command line interface) to this function, so the user can insert a number and get the factorial of it as output: 'The factorial of the <NUMBER>, is <FACTORIAL>'.
+            ```
+            def factorialize(num):
+                factorial = 1
+                for i in range(1, num):
+                    factorial *= i
+                return factorial
+            ```"
+        - "You have a little project where you need to use JavaScript, a language you don't use every day. You have a subtask to write a function that counts how many vowels are in a given string. And you need this functionality in OOP. Also you want the chatbot to develop the snippet it provided by getting the function input string via an API call. If the chatbot uses functions or operators you are not familiar with feel free to ask follow-up questions about it."
+        - "You want to draw a unicorn in python using the 'turtle' module. (There should be multiple lines of short function calls). After that substitute the 10th line, which includes number argument(s), with the value 73(s)."
+        - "You want to know what are the world's 10 oldest continuously inhabited cities. Pick the 3rd in that list find out who established the city, in which region it is located and what was the highest population."
+        - "You have written a content that disagrees with the following statement: 'Technology is the cause of all societal problems' And you want the chatbot to generate a response that agrees with the statement, to make your claims stronger."
+        - "You plan a trip to France and would like to do a walking tour. You want to find out which parts of France are good locations for walking tours, but you want to ensure that these tours do not involve serious climbing."
+        - "You want to use the chatbot to create a poem about cats. Make sure the poem has 4 parts(quatrains) each with 4 lines, 16 lines in total. Refine the poem until you are satisfied and it is coherent. Also you want to change the style of one of the quatrains to reflect the distinctive style of your favourite poet."
+
+    spec_tokens:
+      persona_placeholder: "<PERSONA>"
+      objective_placeholder: "<OBJECTIVE>"
+      response_placeholder: "<RESPONSE>"
+      conv_stop_placeholder: "<CONV_STOP>"
+      conv_stop_token: "FINISH"
+      user_msg: "<USER_MSG>"
+      model_answer: "<MODEL_ANSWER>"
+      next_prompt: "<NEXT_PROMPT>"
+      bos_token: "<BOS>"
+      sep_token: "<SEP>"
+    persona:
+      num_personas: 5
+      prompt: "<AGE>-year-old <RACE> individual with a <GENDER> gender identity, holding <EDUCATION> and English <NATIVE_ENGLISH> your native language" 
+      fixed:
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Female"
+            education: "Master's degree"
+            native_english: "is"
+        - person:
+            age: "a 25 to 34"
+            race: "Asian or Pacific Islander"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "Asian or Pacific Islander"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 35 to 44"
+            race: "White"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is"
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Female"
+            education: "Doctoral degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "Asian or Pacific Islander"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 18 to 24"
+            race: "Asian or Pacific Islander"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 18 to 24"
+            race: "Asian or Pacific Islander"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 45 to 54"
+            race: "Asian or Pacific Islander"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "Asian or Pacific Islander"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Female"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "Asian or Pacific Islander"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 18 to 24"
+            race: "White"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is not"
+        - person:
+            age: "a 25 to 34"
+            race: "White"
+            gender: "Male"
+            education: "Master's degree"
+            native_english: "is"
+        - person:
+            age: "a 25 to 34"
+            race: "Asian or Pacific Islander"
+            gender: "Female"
+            education: "Doctoral degree"
+            native_english: "is not"
+      features:
+        age:
+          - "a 18 to 24"
+          - "a 25 to 34"
+          - "a 35 to 44"
+          - "a 45 to 54"
+          - "a 55 to 64"
+        race:
+          - "White"
+          - "Hispanic or Latino"
+          - "Black or African American"
+          - "Native American or American Indian"
+          - "Asian or Pacific Islander"
+        gender:
+          - "Female"
+          - "Male"
+          - "Nonbinary"
+        education:
+          - "Master's degree"
+          - "Doctoral degree"
+        native_english:
+          - "is"
+          - "is not"
+
+  dataloader:
+    batch_size: 16
+    num_workers: 4
+    shuffle: False
+
+hydra:
+  sweeper:
+    params:
+      seed: 73,321,8479

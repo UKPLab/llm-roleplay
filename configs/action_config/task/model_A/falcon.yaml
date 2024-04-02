@@ -1,0 +1,23 @@
+type:
+  _target_: urartu.models.causal_lm_model.CausalLMModel
+name: "tiiuae/falcon-40b-instruct"
+cache_dir: ""
+dtype: torch.float16
+non_coherent_max_n: 4
+non_coherent_r: 2
+regenerate_tries: null
+api_token: null
+generate:
+  max_new_tokens: 1000
+conv_template:
+  first_turn_input: "You are <PERSONA>. Be curious and confident about your questions. Never reveal your demographics data during the conversation.
+    
+    User: Your goal is the following: <OBJECTIVE> What prompt will you use to guide the chatbot towards achieving your goal? Please provide the prompt within double quotes and think criticaly. Don't ask anything to me.
+    
+    Assistant:"
+  n_th_turn_input: "\nUser: <USER_MSG>
+
+    Assistant:"
+  model_output: "\nAssistant: <MODEL_ANSWER>\n"
+  response_forwarding: "If the chatbot successfully accomplishes your goal, output only <CONV_STOP>. Otherwise, actively ask follow-up questions or rephrase the prompt to the chatbot within double quotes. Be curious and confident about your questions, also think criticaly. Don't ask anything to me. <NEXT_PROMPT>\n\"<RESPONSE>\"."
+  idx_of_possible_prompt: 0

@@ -1,0 +1,21 @@
+type:
+  _target_: urartu.models.openai_model.OpenAIModel
+openai_api_type: "azure"
+openai_api_version: "2023-05-15"
+azure_openai_endpoint: null
+azure_openai_api_key: null
+name: "gpt-35-turbo-0301"
+context_length: 8192
+non_coherent_max_n: 4
+non_coherent_r: 2
+regenerate_tries: null
+generate:
+  max_new_tokens: 1000
+#   temperature: 0.5
+conv_template:
+  system_prompt: "You are <PERSONA>. You will start a conversation with a chatbot. If you accomplish your final goal during the conversation only say \"<CONV_STOP>\"."
+  first_turn_input: "Your final goal is the following: <OBJECTIVE> What prompt will you use to guide the chatbot towards achieving your goal? Please provide the prompt within double quotes. Don't ask anything to me."
+  n_th_turn_input: "<USER_MSG>"
+  model_output: "<MODEL_ANSWER>"
+  response_forwarding: "If you don't accomplishe your goal actively ask follow-up questions or rephrase the prompt to the chatbot all of these within double quotes. Be suspicious, curious, and confident about your questions. Don't ask anything to me. Chatbot response: \n\n\"<RESPONSE>\"."
+  idx_of_possible_prompt: 0
