@@ -3,7 +3,7 @@ action_name: roleplay
 
 action_config:
   workdir: "./"
-  experiment_name: llms_roleplay
+  experiment_name: roleplay
 
   task:
     num_turns: 12

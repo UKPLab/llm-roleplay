@@ -22,7 +22,7 @@ urartu --help
 > **Note for Usage on Slurm System**
 > For an enhanced experience with the Slurm job cancellation process, it is recommended to utilize a specific fork of the `submitit` package available at: [https://github.com/tmynn/submitit](https://github.com/tmynn/submitit). This fork includes the `ResumableSlurmJob.on_job_fail` callback, which allows the incorporation of additional functionality within this callback to ensure a graceful job termination.
 
-## Example Usage
+## Usage
 
 Running an action with UrarTU is as easy as waving a wand. Just provide the name of the configuration file containing the action, followed by the action name itself. 🪄 For instance, let's say you want to ignite the `example` action – an action that's a bit shy on functionality for now.
 
@@ -87,3 +87,29 @@ Experience the freedom to choose your launch adventure, tailored to your needs a
 
 And just like that, you're all set to embark on your machine learning journey with UrarTU! 🌟
 If you run into any hiccups along the way or have any suggestions, don't hesitate to open an issue for assistance.
+
+
+# LLM Roleplay
+
+```bash
+urartu action_config=roleplay +action_config.debug=True aim.repo=aim://10.167.11.14:41700  +action_config/task/model_A=vicuna
+```
+
+
+## Cite
+
+Please use the following citation:
+
+```
+@InProceedings{smith:20xx:CONFERENCE_TITLE,
+  author    = {Smith, John},
+  title     = {My Paper Title},
+  booktitle = {Proceedings of the 20XX Conference on XXXX},
+  month     = mmm,
+  year      = {20xx},
+  address   = {Gotham City, USA},
+  publisher = {Association for XXX},
+  pages     = {XXXX--XXXX},
+  url       = {http://xxxx.xxx}
+}
+```

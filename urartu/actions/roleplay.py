@@ -36,7 +36,7 @@ class Roleplay(Action):
         task_cfg = self.action_cfg.task
 
         records_dir = Path(self.action_cfg.workdir).joinpath(
-            "dialogues",
+            "dialogs",
             f"{task_cfg.model_A.name.split('/')[-1]}",
             str(self.aim_run.hash),
         )
@@ -63,8 +63,8 @@ class Roleplay(Action):
 
                 model_A.history = []
                 model_B.history = []
-                dialogue = []
-                raw_dialogue = []
+                dialog = []
+                raw_dialog = []
 
                 instructions = [
                     instruct.lstrip().rstrip()
@@ -120,8 +120,8 @@ class Roleplay(Action):
                             self.aim_run["num_non_coherent"] += 1
                             break
 
-                        # --------------------- if model_A wants to stop the dialogue ---------------------
-                        if model_A.stop_dialogue(A_output):
+                        # --------------------- if model_A wants to stop the dialog ---------------------
+                        if model_A.stop_dialog(A_output):
                             break
 
                         A_output_extract, num_prompts = model_A.extract_prompt(
@@ -208,16 +208,16 @@ class Roleplay(Action):
                             prompt=B_prompt, output_extract=B_model_output_template
                         )
 
-                        # --------------------------------------- Save the Dialogue ---------------------------------------
-                        dialogue.append(
+                        # --------------------------------------- Save the dialog ---------------------------------------
+                        dialog.append(
                             {
                                 "turn": turn,
                                 "model_A": A_output_extract,
                                 "model_B": B_output,
                             }
                         )
-                        raw_dialogue.append(A_output_extract)
-                        raw_dialogue.append(B_output)
+                        raw_dialog.append(A_output_extract)
+                        raw_dialog.append(B_output)
 
                         torch.cuda.empty_cache()
                         turn += 1
@@ -231,7 +231,7 @@ class Roleplay(Action):
                             "persona": persona,
                             "sample": sample,
                             "num_turns": turn,
-                            "dialogue": dialogue,
+                            "dialog": dialog,
                         }
                     )
 

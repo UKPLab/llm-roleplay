@@ -48,7 +48,7 @@ class Model:
             logging.warning(f"No prompt detected!")
             return None, 0
 
-    def stop_dialogue(self, prompt):
+    def stop_dialog(self, prompt):
         translator = str.maketrans("", "", string.punctuation)
         prompt_first_token = (
             re.split(r"\s+|\n", prompt.strip())[0].strip().translate(translator).strip()
