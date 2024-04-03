@@ -42,9 +42,7 @@ class PipelineModel(Model):
 
             if turn == 0:
                 return (
-                    self.conv_template.first_turn_input.replace(
-                        self.spec_tokens.persona_placeholder, persona
-                    )
+                    self.conv_template.first_turn_input.replace(self.spec_tokens.persona_placeholder, persona)
                     .replace(
                         self.spec_tokens.objective_placeholder,
                         f"{instructions[0]}",
@@ -59,23 +57,17 @@ class PipelineModel(Model):
                 assert response_msg is not None, "response_msg cannot be None"
 
                 if len(instructions) > 1 and turn < len(instructions):
-                    response_forwarding = (
-                        self.conv_template.mid_response_forwarding.replace(
-                            self.spec_tokens.next_prompt, instructions[turn]
-                        )
+                    response_forwarding = self.conv_template.mid_response_forwarding.replace(
+                        self.spec_tokens.next_prompt, instructions[turn]
                     )
                 else:
-                    response_forwarding = (
-                        self.conv_template.response_forwarding.replace(
-                            self.spec_tokens.next_prompt, ""
-                        )
+                    response_forwarding = self.conv_template.response_forwarding.replace(
+                        self.spec_tokens.next_prompt, ""
                     )
 
                 return self.conv_template.n_th_turn_input.replace(
                     self.spec_tokens.user_msg,
-                    response_forwarding.replace(
-                        self.spec_tokens.response_placeholder, response_msg
-                    ),
+                    response_forwarding.replace(self.spec_tokens.response_placeholder, response_msg),
                 )
         elif self.role == "model_B":
             assert response_msg is not None, "response_msg cannot be None"
@@ -86,9 +78,7 @@ class PipelineModel(Model):
                     response_msg,
                 )
             else:
-                return self.conv_template.n_th_turn_input.replace(
-                    self.spec_tokens.user_msg, response_msg
-                )
+                return self.conv_template.n_th_turn_input.replace(self.spec_tokens.user_msg, response_msg)
         else:
             raise NotImplemented(f"unknown role: {self.role}")
 
@@ -100,16 +90,10 @@ class PipelineModel(Model):
         output = self.model(model_prompt, **generate_cfg)
         output = output[0]["generated_text"]
 
-        output_o = (
-            output.replace(str(self.tokenizer.bos_token), "")
-            .replace(str(self.tokenizer.eos_token), "")
-            .strip()
-        )
+        output_o = output.replace(str(self.tokenizer.bos_token), "").replace(str(self.tokenizer.eos_token), "").strip()
 
         model_prompt_o = (
-            model_prompt.replace(str(self.tokenizer.bos_token), "")
-            .replace(str(self.tokenizer.eos_token), "")
-            .strip()
+            model_prompt.replace(str(self.tokenizer.bos_token), "").replace(str(self.tokenizer.eos_token), "").strip()
         )
 
         turn_response = output_o.replace(model_prompt_o, "", 1)
@@ -120,9 +104,7 @@ class PipelineModel(Model):
                 turn_response = turn_response.split(self_reply_token)[0]
                 self.aim_run["num_self_replies"] += 1
 
-        model_output_template = self.conv_template.model_output.replace(
-            self.spec_tokens.model_answer, turn_response
-        )
+        model_output_template = self.conv_template.model_output.replace(self.spec_tokens.model_answer, turn_response)
 
         # del output_tokenized
 

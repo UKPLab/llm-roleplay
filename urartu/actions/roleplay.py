@@ -45,12 +45,8 @@ class Roleplay(Action):
         dataset = Dataset.get_dataset(task_cfg.dataset)
         personas = Persona.get_personas(task_cfg.persona)
 
-        model_A = hydra.utils.instantiate(
-            task_cfg.model_A.type, task_cfg.model_A, "model_A"
-        )
-        model_B = hydra.utils.instantiate(
-            task_cfg.model_B.type, task_cfg.model_B, "model_B"
-        )
+        model_A = hydra.utils.instantiate(task_cfg.model_A.type, task_cfg.model_A, "model_A")
+        model_B = hydra.utils.instantiate(task_cfg.model_B.type, task_cfg.model_B, "model_B")
 
         model_A.spec_tokens = task_cfg.spec_tokens
         model_B.spec_tokens = task_cfg.spec_tokens
@@ -66,10 +62,7 @@ class Roleplay(Action):
                 dialog = []
                 raw_dialog = []
 
-                instructions = [
-                    instruct.lstrip().rstrip()
-                    for instruct in sample["instruction"].split("\n")
-                ]
+                instructions = [instruct.lstrip().rstrip() for instruct in sample["instruction"].split("\n")]
 
                 if self.action_cfg.task.model_A.regenerate_tries:
                     regeneratinon_idx = 0
@@ -97,11 +90,7 @@ class Roleplay(Action):
                         )
                         A_output, _ = model_A.generate(
                             prompt=A_prompt,
-                            generate_cfg=(
-                                A_generate_cfg
-                                if A_generate_cfg
-                                else self.action_cfg.task.model_A.generate
-                            ),
+                            generate_cfg=(A_generate_cfg if A_generate_cfg else self.action_cfg.task.model_A.generate),
                         )
                         if not A_output:
                             break
@@ -124,17 +113,12 @@ class Roleplay(Action):
                         if model_A.stop_dialog(A_output):
                             break
 
-                        A_output_extract, num_prompts = model_A.extract_prompt(
-                            prompt=A_output
-                        )
+                        A_output_extract, num_prompts = model_A.extract_prompt(prompt=A_output)
 
                         if self.action_cfg.task.model_A.regenerate_tries:
                             # --------------------- if model_A failed to provide prompt ---------------------
                             if A_output_extract is None:
-                                if (
-                                    regeneratinon_idx
-                                    < self.action_cfg.task.model_A.regenerate_tries
-                                ):
+                                if regeneratinon_idx < self.action_cfg.task.model_A.regenerate_tries:
                                     A_generate_cfg = model_A.get_generation_cfg()
                                     regeneratinon_idx += 1
                                     continue
@@ -164,15 +148,11 @@ class Roleplay(Action):
 
                         # As the context for model_A is getting bigger much faster -> Starts answering it's own questions
                         # To prevent this keep in the A_history only the output prompt(the thing that model_B will see).
-                        model_A.update_history(
-                            prompt=A_prompt, output_extract=A_output_extract
-                        )
+                        model_A.update_history(prompt=A_prompt, output_extract=A_output_extract)
 
                         # ------------------------------------------ Model B ------------------------------------------
 
-                        B_prompt = model_B.get_prompt(
-                            turn=turn, response_msg=A_output_extract
-                        )
+                        B_prompt = model_B.get_prompt(turn=turn, response_msg=A_output_extract)
 
                         self.track(
                             prompt=B_prompt,
@@ -204,9 +184,7 @@ class Roleplay(Action):
                             self.aim_run["num_non_coherent_model_B"] += 1
                             break
 
-                        model_B.update_history(
-                            prompt=B_prompt, output_extract=B_model_output_template
-                        )
+                        model_B.update_history(prompt=B_prompt, output_extract=B_model_output_template)
 
                         # --------------------------------------- Save the dialog ---------------------------------------
                         dialog.append(
@@ -223,9 +201,7 @@ class Roleplay(Action):
                         turn += 1
                         pbar.update(1)
 
-                with jsonlines.open(
-                    records_dir.joinpath(f"{self.cfg.seed}.jsonl"), mode="a"
-                ) as writer:
+                with jsonlines.open(records_dir.joinpath(f"{self.cfg.seed}.jsonl"), mode="a") as writer:
                     writer.write(
                         {
                             "persona": persona,

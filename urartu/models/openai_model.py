@@ -42,23 +42,17 @@ class OpenAIModel(Model):
                 return prompt
             else:
                 if len(instructions) > 1 and turn < len(instructions):
-                    response_forwarding = (
-                        self.conv_template.mid_response_forwarding.replace(
-                            self.spec_tokens.next_prompt, instructions[turn]
-                        )
+                    response_forwarding = self.conv_template.mid_response_forwarding.replace(
+                        self.spec_tokens.next_prompt, instructions[turn]
                     )
                 else:
-                    response_forwarding = (
-                        self.conv_template.response_forwarding.replace(
-                            self.spec_tokens.next_prompt, ""
-                        )
+                    response_forwarding = self.conv_template.response_forwarding.replace(
+                        self.spec_tokens.next_prompt, ""
                     )
 
                 return self.conv_template.n_th_turn_input.replace(
                     self.spec_tokens.user_msg,
-                    response_forwarding.replace(
-                        self.spec_tokens.response_placeholder, response_msg
-                    ),
+                    response_forwarding.replace(self.spec_tokens.response_placeholder, response_msg),
                 )
         elif self.role == "model_B":
             if turn == 0:
@@ -67,9 +61,7 @@ class OpenAIModel(Model):
                     response_msg,
                 )
             else:
-                return self.conv_template.n_th_turn_input.replace(
-                    self.spec_tokens.user_msg, response_msg
-                )
+                return self.conv_template.n_th_turn_input.replace(self.spec_tokens.user_msg, response_msg)
         else:
             raise NotImplemented(f"unknown role: {self.role}")
 
@@ -88,10 +80,10 @@ class OpenAIModel(Model):
             i = 1
             while delta > 0:
                 len_human_utterance = self._get_num_tokens(self.history[i].content)
-                len_aiassistant_utterance = self._get_num_tokens(self.history[i+1].content)
-                delta -= (len_human_utterance + len_aiassistant_utterance)
+                len_aiassistant_utterance = self._get_num_tokens(self.history[i + 1].content)
+                delta -= len_human_utterance + len_aiassistant_utterance
                 i += 2
-            del self.history[1: i]
+            del self.history[1:i]
         try:
             turn_response = self.model(self.history)
         except Exception as e:
