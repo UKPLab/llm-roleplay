@@ -8,9 +8,9 @@ from aim import Run, Text
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-from urartu.common.action import Action
-from urartu.common.dataset import Dataset
-from urartu.common.persona import Persona
+from roleplay.common.action import Action
+from roleplay.common.dataset import Dataset
+from roleplay.common.persona import Persona
 
 
 class Roleplay(Action):
@@ -30,14 +30,14 @@ class Roleplay(Action):
         self.aim_run["num_non_coherent"] = 0
         self.aim_run["num_regenerate_worked"] = 0
         self.aim_run["num_self_replies"] = 0
-        self.aim_run["num_non_coherent_model_B"] = 0
+        self.aim_run["num_non_coherent_model_responder"] = 0
         self.aim_run["personas"] = {}
 
         task_cfg = self.action_cfg.task
 
         records_dir = Path(self.action_cfg.workdir).joinpath(
             "dialogs",
-            f"{task_cfg.model_A.name.split('/')[-1]}",
+            f"{task_cfg.model_inquirer.name.split('/')[-1]}",
             str(self.aim_run.hash),
         )
         os.makedirs(records_dir, exist_ok=True)
@@ -45,26 +45,33 @@ class Roleplay(Action):
         dataset = Dataset.get_dataset(task_cfg.dataset)
         personas = Persona.get_personas(task_cfg.persona)
 
-        model_A = hydra.utils.instantiate(task_cfg.model_A.type, task_cfg.model_A, "model_A")
-        model_B = hydra.utils.instantiate(task_cfg.model_B.type, task_cfg.model_B, "model_B")
+        model_inquirer = hydra.utils.instantiate(
+            task_cfg.model_inquirer.type, task_cfg.model_inquirer, "model_inquirer"
+        )
+        model_responder = hydra.utils.instantiate(
+            task_cfg.model_responder.type, task_cfg.model_responder, "model_responder"
+        )
 
-        model_A.spec_tokens = task_cfg.spec_tokens
-        model_B.spec_tokens = task_cfg.spec_tokens
-        model_A.aim_run = self.aim_run
-        model_B.aim_run = self.aim_run
+        model_inquirer.spec_tokens = task_cfg.spec_tokens
+        model_responder.spec_tokens = task_cfg.spec_tokens
+        model_inquirer.aim_run = self.aim_run
+        model_responder.aim_run = self.aim_run
 
         for idx, sample in tqdm(enumerate(dataset), total=len(dataset), desc="samples"):
             for persona, persona_hash in tqdm(personas, desc="personas", leave=False):
                 self.aim_run["personas"][persona_hash] = persona
 
-                model_A.history = []
-                model_B.history = []
+                model_inquirer.history = []
+                model_responder.history = []
                 dialog = []
                 raw_dialog = []
 
-                instructions = [instruct.lstrip().rstrip() for instruct in sample["instruction"].split("\n")]
+                instructions = [
+                    instruct.lstrip().rstrip()
+                    for instruct in sample["instruction"].split("\n")
+                ]
 
-                if self.action_cfg.task.model_A.regenerate_tries:
+                if self.action_cfg.task.model_inquirer.regenerate_tries:
                     regeneratinon_idx = 0
                 A_generate_cfg = None
                 turn = 0
@@ -72,7 +79,7 @@ class Roleplay(Action):
                     while turn < task_cfg.num_turns:
                         pbar.set_postfix(turn=turn + 1)
                         # ------------------------------------------ Model A ------------------------------------------
-                        A_prompt = model_A.get_prompt(
+                        A_prompt = model_inquirer.get_prompt(
                             turn=turn,
                             response_msg=B_output if "B_output" in locals() else None,
                             persona=persona,
@@ -88,9 +95,13 @@ class Roleplay(Action):
                                 "persona_hash": persona_hash,
                             },
                         )
-                        A_output, _ = model_A.generate(
+                        A_output, _ = model_inquirer.generate(
                             prompt=A_prompt,
-                            generate_cfg=(A_generate_cfg if A_generate_cfg else self.action_cfg.task.model_A.generate),
+                            generate_cfg=(
+                                A_generate_cfg
+                                if A_generate_cfg
+                                else self.action_cfg.task.model_inquirer.generate
+                            ),
                         )
                         if not A_output:
                             break
@@ -104,22 +115,27 @@ class Roleplay(Action):
                             },
                         )
 
-                        # --------------------- if model_A failed to provide coherent text ---------------------
-                        if model_A.is_non_coherent(A_output):
+                        # --------------------- if model_inquirer failed to provide coherent text ---------------------
+                        if model_inquirer.is_non_coherent(A_output):
                             self.aim_run["num_non_coherent"] += 1
                             break
 
-                        # --------------------- if model_A wants to stop the dialog ---------------------
-                        if model_A.stop_dialog(A_output):
+                        # --------------------- if model_inquirer wants to stop the dialog ---------------------
+                        if model_inquirer.stop_dialog(A_output):
                             break
 
-                        A_output_extract, num_prompts = model_A.extract_prompt(prompt=A_output)
+                        A_output_extract, num_prompts = model_inquirer.extract_prompt(
+                            prompt=A_output
+                        )
 
-                        if self.action_cfg.task.model_A.regenerate_tries:
-                            # --------------------- if model_A failed to provide prompt ---------------------
+                        if self.action_cfg.task.model_inquirer.regenerate_tries:
+                            # --------------------- if model_inquirer failed to provide prompt ---------------------
                             if A_output_extract is None:
-                                if regeneratinon_idx < self.action_cfg.task.model_A.regenerate_tries:
-                                    A_generate_cfg = model_A.get_generation_cfg()
+                                if (
+                                    regeneratinon_idx
+                                    < self.action_cfg.task.model_inquirer.regenerate_tries
+                                ):
+                                    A_generate_cfg = model_inquirer.get_generation_cfg()
                                     regeneratinon_idx += 1
                                     continue
                                 else:
@@ -146,13 +162,17 @@ class Roleplay(Action):
                             },
                         )
 
-                        # As the context for model_A is getting bigger much faster -> Starts answering it's own questions
-                        # To prevent this keep in the A_history only the output prompt(the thing that model_B will see).
-                        model_A.update_history(prompt=A_prompt, output_extract=A_output_extract)
+                        # As the context for model_inquirer is getting bigger much faster -> Starts answering it's own questions
+                        # To prevent this keep in the A_history only the output prompt(the thing that model_responder will see).
+                        model_inquirer.update_history(
+                            prompt=A_prompt, output_extract=A_output_extract
+                        )
 
                         # ------------------------------------------ Model B ------------------------------------------
 
-                        B_prompt = model_B.get_prompt(turn=turn, response_msg=A_output_extract)
+                        B_prompt = model_responder.get_prompt(
+                            turn=turn, response_msg=A_output_extract
+                        )
 
                         self.track(
                             prompt=B_prompt,
@@ -163,9 +183,9 @@ class Roleplay(Action):
                                 "persona_hash": persona_hash,
                             },
                         )
-                        B_output, B_model_output_template = model_B.generate(
+                        B_output, B_model_output_template = model_responder.generate(
                             prompt=B_prompt,
-                            generate_cfg=self.action_cfg.task.model_B.generate,
+                            generate_cfg=self.action_cfg.task.model_responder.generate,
                         )
                         if not B_output:
                             break
@@ -179,19 +199,21 @@ class Roleplay(Action):
                             },
                         )
 
-                        # --------------------- if model_B failed to provide coherent text ---------------------
-                        if model_B.is_non_coherent(B_output):
-                            self.aim_run["num_non_coherent_model_B"] += 1
+                        # --------------------- if model_responder failed to provide coherent text ---------------------
+                        if model_responder.is_non_coherent(B_output):
+                            self.aim_run["num_non_coherent_model_responder"] += 1
                             break
 
-                        model_B.update_history(prompt=B_prompt, output_extract=B_model_output_template)
+                        model_responder.update_history(
+                            prompt=B_prompt, output_extract=B_model_output_template
+                        )
 
                         # --------------------------------------- Save the dialog ---------------------------------------
                         dialog.append(
                             {
                                 "turn": turn,
-                                "model_A": A_output_extract,
-                                "model_B": B_output,
+                                "model_inquirer": A_output_extract,
+                                "model_responder": B_output,
                             }
                         )
                         raw_dialog.append(A_output_extract)
@@ -201,7 +223,9 @@ class Roleplay(Action):
                         turn += 1
                         pbar.update(1)
 
-                with jsonlines.open(records_dir.joinpath(f"{self.cfg.seed}.jsonl"), mode="a") as writer:
+                with jsonlines.open(
+                    records_dir.joinpath(f"{self.cfg.seed}.jsonl"), mode="a"
+                ) as writer:
                     writer.write(
                         {
                             "persona": persona,

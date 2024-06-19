@@ -2,7 +2,7 @@ from typing import Any, Dict, List
 
 from datasets import load_dataset
 
-from urartu.common.dataset import Dataset
+from roleplay.common.dataset import Dataset
 
 
 class HFDatasets(Dataset):

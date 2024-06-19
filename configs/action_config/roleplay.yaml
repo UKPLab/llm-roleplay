@@ -8,11 +8,11 @@ action_config:
   task:
     num_turns: 12
 
-    model_A: ???
+    model_inquirer: ???
 
-    model_B:
+    model_responder:
       type:
-        _target_: urartu.models.pipeline_model.PipelineModel
+        _target_: roleplay.models.pipeline_model.PipelineModel
       name: "models--llama-2-hf/13B-Chat"
       cache_dir: ""
       dtype: torch.float16

@@ -13,7 +13,9 @@ class Persona:
                 features = person["person"]
 
                 for feature_name in features.keys():
-                    persona = persona.replace(f"<{feature_name.upper()}>", features[feature_name])
+                    persona = persona.replace(
+                        f"<{feature_name.upper()}>", features[feature_name]
+                    )
 
                 persona_hash = hashlib.md5(str(features).encode()).hexdigest()
                 personas.append((persona, persona_hash))

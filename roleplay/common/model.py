@@ -5,7 +5,7 @@ import re
 import string
 from typing import Any, Dict, List
 
-from urartu.common.device import DEVICE
+from roleplay.common.device import DEVICE
 
 
 class Model:
@@ -50,8 +50,15 @@ class Model:
 
     def stop_dialog(self, prompt):
         translator = str.maketrans("", "", string.punctuation)
-        prompt_first_token = re.split(r"\s+|\n", prompt.strip())[0].strip().translate(translator).strip()
-        prompt_last_token = re.split(r"\s+|\n", prompt.strip())[-1].strip().translate(translator).strip()
+        prompt_first_token = (
+            re.split(r"\s+|\n", prompt.strip())[0].strip().translate(translator).strip()
+        )
+        prompt_last_token = (
+            re.split(r"\s+|\n", prompt.strip())[-1]
+            .strip()
+            .translate(translator)
+            .strip()
+        )
         if (
             self.spec_tokens.conv_stop_token == prompt_first_token
             or self.spec_tokens.conv_stop_token == prompt_last_token
@@ -74,10 +81,16 @@ class Model:
                 if n_grams and len(n_grams) >= max(self.cfg.non_coherent_r, n):
                     if n_grams[-1] == n_gram or n_grams[-n] == n_gram:
                         last_rs = n_grams[-self.cfg.non_coherent_r :]
-                        if len(last_rs) == self.cfg.non_coherent_r and len(set(last_rs)) == 1:
+                        if (
+                            len(last_rs) == self.cfg.non_coherent_r
+                            and len(set(last_rs)) == 1
+                        ):
                             return True
                         last_rs = n_grams[-n::-n][: self.cfg.non_coherent_r]
-                        if len(last_rs) == self.cfg.non_coherent_r and len(set(last_rs)) == 1:
+                        if (
+                            len(last_rs) == self.cfg.non_coherent_r
+                            and len(set(last_rs)) == 1
+                        ):
                             return True
                 n_grams.append(n_gram)
         return False
@@ -102,6 +115,8 @@ class Model:
             else:
                 input_text = element[dataset_cfg.input_key]
             input_batch.append(input_text)
-        tokenized = tokenizer(input_batch, padding="longest", truncation=True, return_tensors="pt")
+        tokenized = tokenizer(
+            input_batch, padding="longest", truncation=True, return_tensors="pt"
+        )
         tokenized.to(DEVICE)
         return tokenized

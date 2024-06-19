@@ -2,8 +2,8 @@ import hydra
 from aim import Run
 from omegaconf import OmegaConf
 
-from urartu.utils.launcher import launch, launch_on_slurm
-from urartu.utils.slurm import is_submitit_available
+from roleplay.utils.launcher import launch, launch_on_slurm
+from roleplay.utils.slurm import is_submitit_available
 
 
 @hydra.main(version_base=None, config_path="config", config_name="main")
@@ -17,7 +17,9 @@ def main(args):
     aim_run.set("cfg", cfg, strict=False)
 
     if cfg.slurm.use_slurm:
-        assert is_submitit_available(), "Please 'pip install submitit' to schedule jobs on SLURM"
+        assert (
+            is_submitit_available()
+        ), "Please 'pip install submitit' to schedule jobs on SLURM"
 
         launch_on_slurm(
             action_name=cfg.action_name,

@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 here = os.path.abspath(os.path.dirname(__file__))
 
 # Version
-version_file = os.path.join(here, "urartu", "VERSION")
+version_file = os.path.join(here, "roleplay", "VERSION")
 with open(version_file) as vf:
     __version__ = vf.read().strip()
 
@@ -14,10 +14,10 @@ with open(os.path.join(here, "requirements.txt"), "r") as f:
     requirements = f.read().splitlines()
 
 # Package info
-NAME = "urartu"
+NAME = "roleplay"
 DESCRIPTION = "ML framework"
 VERSION = __version__
-REQUIRES_PYTHON = ">=3.10.0"
+REQUIRES_PYTHON = "==3.9.16"
 
 setup(
     name=NAME,
@@ -30,7 +30,7 @@ setup(
     zip_safe=False,
     entry_points={
         "console_scripts": [
-            "urartu=urartu.__init__:main",
+            "roleplay=roleplay.__init__:main",
         ],
     },
 )

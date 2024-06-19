@@ -1,22 +1,19 @@
 type:
-  _target_: urartu.models.causal_lm_model.CausalLMModel
-name: "models--llama-2-hf/13B-Chat"
+  _target_: roleplay.models.causal_lm_model.CausalLMModel
+name: "mistralai/Mixtral-8x7B-Instruct-v0.1"
 cache_dir: ""
 dtype: torch.float16
-non_coherent_max_n: 8
+non_coherent_max_n: 4
 non_coherent_r: 2
 regenerate_tries: null
 api_token: null
 generate:
   do_sample: true
   max_new_tokens: 1000
-  top_p: 10
 conv_template:
-  first_turn_input: "[INST] <<SYS>>
-                      You are <PERSONA>. You will start a conversation with an assistant. If you accomplish your ultimate goal during the conversation only say \"<CONV_STOP>\".
-                      
-                      <</SYS>>
-
+  first_turn_input: "[INST]
+                      You are <PERSONA>. You will start a conversation with an assistant. If you accomplish your final goal during the conversation only say \"<CONV_STOP>\".
+    
                       Your ultimate goal is as follows: <OBJECTIVE>. What prompt will you use to direct the assistant toward achieving your goal? Please provide the prompt within double quotes. Use simple language, keep the prompts brief, and be on point. Do not greet the assistant. Maintain a casual style; avoid being overly friendly, don't say thank you. [/INST]"
   n_th_turn_input: "[INST] <USER_MSG> [/INST]"
   model_output: "<MODEL_ANSWER>"

@@ -1,5 +1,5 @@
 type:
-  _target_: urartu.models.openai_model.OpenAIModel
+  _target_: roleplay.models.openai_model.OpenAIModel
 openai_api_type: "azure"
 openai_api_version: "2023-05-15"
 azure_openai_endpoint: null

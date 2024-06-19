@@ -4,7 +4,7 @@ from datasets import Dataset as HFDataset
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 
-from urartu.common.model import Model
+from roleplay.common.model import Model
 
 
 class Dataset:
@@ -38,5 +38,7 @@ class Dataset:
             batch_size=dataloader_cfg.batch_size,
             num_workers=dataloader_cfg.num_workers,
             shuffle=dataloader_cfg.shuffle,
-            collate_fn=lambda data: Model.collate_tokenize(data, tokenizer, dataset_cfg),
+            collate_fn=lambda data: Model.collate_tokenize(
+                data, tokenizer, dataset_cfg
+            ),
         )

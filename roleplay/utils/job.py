@@ -27,9 +27,11 @@ class ResumableSlurmJob:
         self.cfg.slurm.run_id = f"{master_ip}:{master_port}"
 
         self.get_aim_run()
-        self.aim_run.set("job", {"job_id": int(environment.job_id), "hostname": environment.hostname})
+        self.aim_run.set(
+            "job", {"job_id": int(environment.job_id), "hostname": environment.hostname}
+        )
 
-        action = import_module(f"urartu.actions.{self.action_name}")
+        action = import_module(f"roleplay.actions.{self.action_name}")
         action.main(cfg=self.cfg, aim_run=self.aim_run)
 
     def checkpoint(self):
@@ -54,5 +56,5 @@ class ResumableJob:
         self.aim_run = aim_run
 
     def __call__(self):
-        action = import_module(f"urartu.actions.{self.action_name}")
+        action = import_module(f"roleplay.actions.{self.action_name}")
         action.main(cfg=self.cfg, aim_run=self.aim_run)
