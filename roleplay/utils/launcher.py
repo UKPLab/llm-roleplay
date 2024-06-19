@@ -1,4 +1,4 @@
-from datetime import datetime
+import time
 from pathlib import Path
 from typing import Dict
 
@@ -12,14 +12,12 @@ from roleplay.utils.job import ResumableJob, ResumableSlurmJob
 def create_submitit_executor(cfg: Dict):
     import submitit
 
-    log_folder = Path(cfg.slurm.log_folder).joinpath(
-        datetime.now().strftime("%d-%m-%y")
-    )
+    log_folder = Path(cfg.slurm.log_folder).joinpath(str(time.time()))
     makedir(log_folder)
     assert g_pathmgr.exists(
         log_folder
     ), f"Specified cfg.slurm.log_folder={log_folder} doesn't exist"
-    assert cfg.slurm.partition, "slurm.partition must be set when using slurm"
+    assert cfg.slurm.partition, "slurm.PARTITION must be set when using slurm"
 
     executor = submitit.AutoExecutor(folder=log_folder)
     timeout_min = cfg.slurm.time_hours * 60 + cfg.slurm.time_minutes
@@ -43,14 +41,14 @@ def create_submitit_executor(cfg: Dict):
 
 def launch_on_slurm(cfg: Dict, action_name: str, aim_run: Run):
     executor = create_submitit_executor(cfg)
-    runner = ResumableSlurmJob(action_name=action_name, cfg=cfg, aim_run=aim_run)
+    trainer = ResumableSlurmJob(action_name=action_name, cfg=cfg, aim_run=aim_run)
 
-    job = executor.submit(runner)
+    job = executor.submit(trainer)
     print(f"SUBMITTED: {job.job_id}")
 
     return job
 
 
 def launch(cfg: Dict, action_name: str, aim_run: Run):
-    runner = ResumableJob(action_name=action_name, cfg=cfg, aim_run=aim_run)
-    runner()
+    trainer = ResumableJob(action_name=action_name, cfg=cfg, aim_run=aim_run)
+    trainer()
