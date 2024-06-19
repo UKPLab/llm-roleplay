@@ -1,99 +1,101 @@
-# UrarTU 🦁
+# LLM Roleplay: Simulating Human-Chatbot Interaction
 
-Harness the power of UrarTU, a versatile ML framework meticulously designed to provide intuitive abstractions of familiar pipeline components. With a .yaml file-based configuration system, and the added convenience of seamless Slurm job submission on clusters, UrarTU takes the complexity out of machine learning, so you can focus on what truly matters! 🚀
-
-![urartu_schema drawio](https://github.com/tmynn/urartu/assets/23078323/1e2e4276-5136-47ab-b2e1-6b92f7a08adf)
+The LLM Roleplay (roleplay) codebase is built upon the [UrarTU framework](https://github.com/tamohannes/urartu). For detailed insights into its structure, please refer to the [Getting Started Guide](https://github.com/tamohannes/urartu/blob/master/getting_started.md).
 
 ## Installation
+Getting started with roleplay is a breeze! 💨 Just follow these steps to set up the necessary packages and create a local package called `roleplay`:
 
-Getting Started with UrarTU is a Breeze! 🌀 Simply follow these steps to set up the essential packages and create a local package named 'urartu':
-
-- Clone the repository: `git clone git@github.com:tmynn/urartu.git`
-- Navigate to the project directory: `cd urartu`
+- Clone the repository: `git clone git@github.com:tamohannes/llm_roleplay.git`
+- Navigate to the project directory: `cd roleplay`
 - Execute the magic command: `pip install .`
 
 
-Adding a Dash of Convenience! 🎉 Once you've executed the previous command, you'll not only have UrarTU ready to roll, but we've also sprinkled in a touch of magic for you ✨. An alias will be conjured, granting you easy access to UrarTU from any directory within your operating system:
+Adding a touch of convenience! 🪄 After running the previous command, `roleplay` will be set up and ready to use. Plus, an alias will be created, allowing you to access roleplay from any directory on your operating system effortlessly:
+
 ```bash
-urartu --help
+roleplay --help
+```
+<!-- > **Note for Usage on Slurm System**
+> For an enhanced experience with the Slurm job cancellation process, it is recommended to utilize a specific fork of the `submitit` package available at: [https://github.com/tamohannes/submitit](https://github.com/tamohannes/submitit). This fork includes the `ResumableSlurmJob.on_job_fail` callback, which allows the incorporation of additional functionality within this callback to ensure a graceful job termination. -->
+
+
+
+### Exploring the Experiments
+
+Before diving into using `roleplay`, let's set up [Aim](https://github.com/aimhubio/aim). This tool will track our experiment metadata and generated dialogues, storing them locally on our system.
+
+Let's start the Aim server to store all the metadata and dialogues of our experiments. By default, it will run on port `53800`. Use this command to get it running:
+
+```bash
+aim server
 ```
 
+Since we are running the Aim server on our local machine, we will use the address: `aim://0.0.0.0:53800`. For remote tracking, refer to [Track experiments with aim remote server](https://aimstack.readthedocs.io/en/latest/using/remote_tracking.html).
 
-> **Note for Usage on Slurm System**
-> For an enhanced experience with the Slurm job cancellation process, it is recommended to utilize a specific fork of the `submitit` package available at: [https://github.com/tmynn/submitit](https://github.com/tmynn/submitit). This fork includes the `ResumableSlurmJob.on_job_fail` callback, which allows the incorporation of additional functionality within this callback to ensure a graceful job termination.
-
-## Usage
-
-Running an action with UrarTU is as easy as waving a wand. Just provide the name of the configuration file containing the action, followed by the action name itself. 🪄 For instance, let's say you want to ignite the `example` action – an action that's a bit shy on functionality for now.
-
-Simply execute the following command in your terminal:
-```bash
-urartu action_config=example
-```
-
-## Exploring the Experiments
-Unveiling Insights with Ease! 🔍 UrarTU, pairs up with [Aim](https://github.com/aimhubio/aim), a remarkable open-source AI metadata tracker designed to be both intuitive and potent. To dive into the wealth of metrics that Aim effortlessly captures, simply follow these steps:
-- Navigate to the directory housing the .aim repository.
-- Execute the command that sparks the magic:
+To explore the wealth of metrics that Aim captures effortlessly, follow these steps:
+- Navigate to the directory containing the `.aim` repository.
+- Run the command that sparks the magic:
 ```bash
 aim up
 ```
-Behold as your experiments come to life with clarity and depth! Aim brings your data to the forefront, and with it, the power to make informed decisions and chart new territories in the realm of machine learning. 📈
 
-## Navigating the UrarTU Architecture
 
-Within UrarTU lies a well-organized structure that simplifies your interaction with machine learning components.
+## Usage
 
-### Configs: Tailoring Your Setup
+Let's get started with generating dialogues using the `roleplay` action. The process is simple: just provide the name of the configuration file containing the action, followed by the action name itself. For the `roleplay` action, we'll initiate it by using the Mistral 8x7B model as the inquirer. 🎇
 
-The default configs which shape the way of configs are defined under `urartu/config` directory:
-- `urartu/config/main.yaml`: This core configuration file sets the foundation for default settings, covering all available keys within the system.
-- `urartu/config/action_config` Directory: A designated space for specific action configurations.
+```bash
+roleplay action_config=roleplay +action_config/task/model_inquirer=mixtral action_config.task.model_inquirer.api_token="YOUR_TOKEN"
+```
 
+The `action_config` parameter specifies which configuration file to use to run the action. After that, we specify the configuration file for the inquirer with the `model_inquirer` argument.
+
+To execute the command on a Slurm cluster, configure the `roleplay/config/main.yaml` file with the corresponding fields, and then use the same command to run the job. For more details on how to edit the configuration files, please refer to the upcoming sections.
+
+> **Huggingface Authentication**
+> You might need to log in to HuggingFace to authenticate your use of Mistral 8x7B. To do this, use the `huggingface-cli` login command and provide your access token.
+> To obtain a HuggingFace access token, refer to [User access tokens](https://huggingface.co/docs/hub/en/security-tokens).
+
+
+## Configs: Tailoring Your Setup
+
+The default configs which shape the way of configs are defined under `roleplay/config` directory:
+- `roleplay/config/main.yaml`: This core configuration file sets the foundation for default settings, covering all available keys within the system.
+- `roleplay/config/action_config` Directory: A designated space for specific action configurations.
 
 ### Crafting Customizations
 
-Tailoring configurations to your needs is a breeze with UrarTU. You have two flexible options:
+You have two flexible options for tailoring your configurations in `roleplay`. 
 
-1. **Custom Config Files**: To simplify configuration adjustments, UrarTU provides a dedicated `configs` directory where you can store personalized configuration files. These files seamlessly integrate with Hydra's search path. The directory structure mirrors that of `urartu/config`. You can define project-specific configurations in specially named files. For instance, an `example.yaml` file within the `configs` directory can house all the configurations specific to your 'example' project, with customized settings.
+1. **Custom Config Files**: To simplify configuration adjustments, `roleplay` provides a dedicated `configs` directory where you can store personalized configuration files. These files seamlessly integrate with Hydra's search path. The directory structure mirrors that of `roleplay/config`. You can define project-specific configurations in specially named files. For instance, the `roleplay.yaml` file within the `configs` directory can house all the configurations specific to your `roleplay` project, with customized settings.
 
-    - **Personalized User Configs**: To further tailor configurations for individual users, create a directory named `configs_{username}` at the same level as the `configs` directory, where `{username}` represents your operating system username. The beauty of this approach is that there are no additional steps required. Your customizations will smoothly load and override the default configurations, ensuring a seamless and hassle-free experience. ✨
+    - **Personalized User Configs**: To further tailor configurations for individual users, create a directory named `configs_{username}` at the same level as the `configs` directory, where `{username}` represents your operating system username (check out `configs_tamoyan` for an example). The beauty of this approach is that there are no additional steps required. Your customizations will smoothly load and override the default configurations, ensuring a seamless and hassle-free experience. ✨
 
-    The order of precedence for configuration overrides is as follows: `urartu/config`, `configs`, `configs_{username}`, giving priority to user-specific configurations.
+    The order of precedence for configuration overrides is as follows: `roleplay/config`, `configs`, `configs_{username}`, giving priority to user-specific configurations.
 
-2. **CLI Approach**: For those who prefer a command-line interface (CLI) approach, UrarTU offers a convenient method. You can enhance your commands with specific key-value pairs directly in the CLI. For example, modifying your working directory path is as simple as:
+2. **CLI Approach**: For those who prefer a command-line interface (CLI) approach, `roleplay` offers a convenient method. You can enhance your commands with specific key-value pairs directly in the CLI. For example, modifying your working directory path is as simple as:
 
     ```bash
-    urartu action_config=example action_config.workdir=PATH_TO_WORKDIR
+    roleplay action_config=roleplay action_config.workdir=PATH_TO_WORKDIR
     ```
 
-Choose the method that suits your workflow best and enjoy the flexibility UrarTU provides for crafting custom configurations.
-
-
-### Actions: Shaping Functionality
-
-Central to UrarTU's architecture is the `Action` class. This foundational script governs all actions and their behavior. From loading CLI arguments to orchestrating the `main` function of a chosen action, the `action_name` parameter plays the pivotal role in this functionality.
+Choose the method that suits your workflow best and enjoy the flexibility `roleplay` provides for crafting custom configurations.
 
 
 ### Effortless Launch
 
-With UrarTU, launching actions becomes a breeze, offering you two distinctive pathways. 🚀
+With `roleplay`, launching actions is incredibly easy, offering you two options. 🚀
 
-- Local Marvel: The first route lets you run jobs on your local machine – the very platform where the script takes flight.
-- Cluster Voyage: The second option invites you to embark on a journey to the slurm cluster. By setting the `slurm.use_slurm` configuration in `config/main.yaml` which takes boolean values, you can toggle between these options effortlessly.
+- **Local Marvel:** This option allows you to run jobs on your local machine, right where the script is executed.
+- **Cluster Voyage:** This choice takes you on a journey to the Slurm cluster. By adjusting the `slurm.use_slurm` setting in `config/main.yaml`, you can easily switch between local and cluster execution.
 
-Experience the freedom to choose your launch adventure, tailored to your needs and aspirations!
-
-
-And just like that, you're all set to embark on your machine learning journey with UrarTU! 🌟
-If you run into any hiccups along the way or have any suggestions, don't hesitate to open an issue for assistance.
+Enjoy the flexibility to choose the launch adventure that best suits your needs and goals!
 
 
-# LLM Roleplay
 
-```bash
-urartu action_config=roleplay +action_config.debug=True aim.repo=aim://10.167.11.14:41700  +action_config/task/model_A=vicuna
-```
+---
+You're all set to dive into goal-oriented, persona-based, diverse, and multi-turn dialogue generation with `roleplay`! 🌟 If you encounter any issues or have suggestions, feel free to open an issue for assistance. 😊
+
 
 
 ## Cite
@@ -102,8 +104,8 @@ Please use the following citation:
 
 ```
 @InProceedings{smith:20xx:CONFERENCE_TITLE,
-  author    = {Smith, John},
-  title     = {My Paper Title},
+  author    = {Hovhannes Tamoyan},
+  title     = {LLM Roleplay: Simulating Human-Chatbot Interaction},
   booktitle = {Proceedings of the 20XX Conference on XXXX},
   month     = mmm,
   year      = {20xx},
