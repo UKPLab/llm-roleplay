@@ -1,0 +1,69 @@
+# This is a basic workflow to help you get started with Actions
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check files
+        run: |
+          # Define the list of filenames you want to check
+          FILES_TO_CHECK=("LICENSE" "README.md" "requirements.txt" "requirements-dev.txt" "setup.py")
+
+          # Initialize a variable to track missing files
+          MISSING_FILES=()
+
+          # Check if each file exists in the root directory
+          for FILE in "${FILES_TO_CHECK[@]}"; do
+            if [ ! -f "$FILE" ]; then
+              MISSING_FILES+=("$FILE")
+            fi
+          done
+
+          # Output the missing files
+          if [ ${#MISSING_FILES[@]} -eq 0 ]; then
+            echo "All files exist."
+          else
+            echo "The following files are missing:"
+            for MISSING_FILE in "${MISSING_FILES[@]}"; do
+              echo "- $MISSING_FILE"
+            done
+            echo "::error::One or more files are missing."
+            exit 1
+          fi
+
+  linter:
+    runs-on: ubuntu-latest
+    needs: check-files
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+
+      - name: Analysing the code with pylint
+        run: |
+          pylint --disable=trailing-whitespace,missing-class-docstring,missing-final-newline,trailing-newlines \
+                  --fail-under=9.0 \
+                  $(git ls-files '*.py') || echo "::warning::Pylint check failed, but the workflow will continue."

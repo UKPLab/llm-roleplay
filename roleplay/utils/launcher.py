@@ -14,9 +14,7 @@ def create_submitit_executor(cfg: Dict):
 
     log_folder = Path(cfg.slurm.log_folder).joinpath(str(time.time()))
     makedir(log_folder)
-    assert g_pathmgr.exists(
-        log_folder
-    ), f"Specified cfg.slurm.log_folder={log_folder} doesn't exist"
+    assert g_pathmgr.exists(log_folder), f"Specified cfg.slurm.log_folder={log_folder} doesn't exist"
     assert cfg.slurm.partition, "slurm.PARTITION must be set when using slurm"
 
     executor = submitit.AutoExecutor(folder=log_folder)

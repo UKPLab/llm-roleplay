@@ -13,7 +13,7 @@ generate:
   max_new_tokens: 1000
 #   temperature: 0.5
 conv_template:
-  system_prompt: "You are <PERSONA>. You will start a conversation with a chatbot. If you accomplish your final goal during the conversation only say \"<CONV_STOP>\"."
+  system_prompt: 'You are <PERSONA>. You will start a conversation with a chatbot. If you accomplish your final goal during the conversation only say "<CONV_STOP>".'
   first_turn_input: "Your final goal is the following: <OBJECTIVE> What prompt will you use to guide the chatbot towards achieving your goal? Please provide the prompt within double quotes. Don't ask anything to me."
   n_th_turn_input: "<USER_MSG>"
   model_output: "<MODEL_ANSWER>"

@@ -8,7 +8,7 @@ current_user = get_current_user()
 
 class roleplayPlugin(SearchPathPlugin):
     def manipulate_search_path(self, search_path: ConfigSearchPath) -> None:
-        search_path.prepend(provider="roleplay", path=f"pkg://configs")
-        search_path.prepend(provider="roleplay", path=f"file://configs")
+        search_path.prepend(provider="roleplay", path="pkg://configs")
+        search_path.prepend(provider="roleplay", path="file://configs")
         search_path.prepend(provider="roleplay", path=f"pkg://configs_{current_user}")
         search_path.prepend(provider="roleplay", path=f"file://configs_{current_user}")

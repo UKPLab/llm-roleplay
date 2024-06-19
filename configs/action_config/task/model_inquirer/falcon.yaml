@@ -10,10 +10,11 @@ api_token: null
 generate:
   max_new_tokens: 1000
 conv_template:
-  first_turn_input: "You are <PERSONA>. Be curious and confident about your questions. Never reveal your demographics data during the conversation.
-    
+  first_turn_input:
+    "You are <PERSONA>. Be curious and confident about your questions. Never reveal your demographics data during the conversation.
+
     User: Your goal is the following: <OBJECTIVE> What prompt will you use to guide the chatbot towards achieving your goal? Please provide the prompt within double quotes and think criticaly. Don't ask anything to me.
-    
+
     Assistant:"
   n_th_turn_input: "\nUser: <USER_MSG>
 

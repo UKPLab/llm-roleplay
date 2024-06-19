@@ -17,9 +17,7 @@ def main(args):
     aim_run.set("cfg", cfg, strict=False)
 
     if cfg.slurm.use_slurm:
-        assert (
-            is_submitit_available()
-        ), "Please 'pip install submitit' to schedule jobs on SLURM"
+        assert is_submitit_available(), "Please 'pip install submitit' to schedule jobs on SLURM"
 
         launch_on_slurm(
             action_name=cfg.action_name,

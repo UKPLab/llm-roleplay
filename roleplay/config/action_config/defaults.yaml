@@ -1,6 +1,6 @@
 action_config:
   workdir: ???
   experiment_name: ???
-  debug: False
+  debug: false
 
   task: ???

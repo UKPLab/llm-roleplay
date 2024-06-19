@@ -1,0 +1,12 @@
+pytest
+coverage
+pylint
+black
+isort
+pytest-cov
+mypy
+gitchangelog
+mkdocs
+mkdocs-material
+mkdocstrings
+mkdocstrings-python
