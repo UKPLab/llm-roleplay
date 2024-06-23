@@ -115,3 +115,15 @@ Please use the following citation:
   url       = {http://xxxx.xxx}
 }
 ```
+
+
+
+## Contact persons 
+
+[Hovhannes Tamoyan](mailto:hovhannes.tamoyan@tu-darmstadt.de), [Hendrik Schuff](schuff@ukp.tu-darmstadt.de)
+
+Please feel free to contact us if you have any questions or need to report any issues.
+
+## Links
+
+[UKP Lab Homepage](https://www.ukp.tu-darmstadt.de/) | [TU Darmstadt Website](https://www.tu-darmstadt.de/index.en.jsp)
