@@ -1,12 +1,15 @@
 # LLM Roleplay: Simulating Human-Chatbot Interaction
 
+<img width="350" alt="roleplay-schema" src="https://github.com/UKPLab/roleplay/assets/23078323/085c51e0-248b-4594-a2f6-6f820f662eba">
+
+
 The development of chatbots requires collecting a large number of human-chatbot dialogues to reflect the breadth of users' sociodemographic backgrounds and conversational goals.
 However, the resource requirements to conduct the respective user studies can be prohibitively high and often only allow for a narrow analysis of specific dialogue goals and participant demographics.
 In this paper, we propose LLM-Roleplay: a goal-oriented, persona-based method to automatically generate diverse multi-turn dialogues simulating human-chatbot interaction.
 LLM-Roleplay can be applied to generate dialogues with any type of chatbot and uses large language models (LLMs) to play the role of textually described personas.
 To validate our method we collect natural human-chatbot dialogues from different sociodemographic groups 
 and conduct a human evaluation to compare real human-chatbot dialogues with our generated dialogues.
-We compare the abilities of state-of-the-art LLMs in embodying personas and holding a conversation and find that our method can simulate human-chatbot dialogues with a high indistinguishability 
+We compare the abilities of state-of-the-art LLMs in embodying personas and holding a conversation and find that our method can simulate human-chatbot dialogues with a high indistinguishability.
 
 The LLM Roleplay (roleplay) codebase is built upon the [UrarTU framework](https://github.com/tamohannes/urartu). For detailed insights into its structure, please refer to the [Getting Started Guide](https://github.com/tamohannes/urartu/blob/master/getting_started.md).
 
