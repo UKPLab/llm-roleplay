@@ -94,14 +94,13 @@ class Model:
         return A_generate_cfg
 
     @staticmethod
-    def collate_tokenize(data, tokenizer, dataset_cfg):
+    def collate_tokenize(data, tokenizer, input_key):
         input_batch = []
         for element in data:
-            if isinstance(element[dataset_cfg.input_key], list):
-                input_text = " ".join(element[dataset_cfg.input_key])
+            if isinstance(element[input_key], list):
+                input_text = " ".join(element[input_key])
             else:
-                input_text = element[dataset_cfg.input_key]
+                input_text = element[input_key]
             input_batch.append(input_text)
-        tokenized = tokenizer(input_batch, padding="longest", truncation=True, return_tensors="pt")
-        tokenized.to(DEVICE)
+        tokenized = tokenizer(input_batch, padding="longest", truncation=True, return_tensors="pt").to(DEVICE)
         return tokenized

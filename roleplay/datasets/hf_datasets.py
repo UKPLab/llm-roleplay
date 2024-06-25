@@ -10,7 +10,7 @@ class HFDatasets(Dataset):
         super().__init__(cfg)
 
     def _get_dataset(self):
-        return load_dataset(
+        self.dataset = load_dataset(
             self.cfg.name,
             self.cfg.get("subset"),
             split=self.cfg.get("split"),
