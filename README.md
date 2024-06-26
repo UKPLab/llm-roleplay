@@ -63,10 +63,10 @@ aim up
 Let's get started with generating dialogues using the `roleplay` action. The process is simple: just provide the name of the configuration file containing the action, followed by the action name itself. For the `roleplay` action, we'll initiate it by using the Mistral 8x7B model as the inquirer. 🎇
 
 ```bash
-roleplay action_config=roleplay +action_config/task/model_inquirer=mixtral action_config.task.model_inquirer.api_token="YOUR_TOKEN"
+roleplay action_config=roleplay +action_config/task/model_inquirer=mixtral +action_config/task/model_responder=llama action_config.task.model_inquirer.api_token="YOUR_TOKEN"
 ```
 
-The `action_config` parameter specifies which configuration file to use to run the action. After that, we specify the configuration file for the inquirer with the `model_inquirer` argument.
+The `action_config` parameter specifies which configuration file to use to run the action. Afterward, we define the configuration file for the inquirer using the `model_inquirer` argument and set the configuration for the responder with the `model_responder` argument.
 
 To execute the command on a Slurm cluster, configure the `roleplay/config/main.yaml` file with the corresponding fields, and then use the same command to run the job. For more details on how to edit the configuration files, please refer to the upcoming sections.
 

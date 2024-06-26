@@ -9,28 +9,8 @@ action_config:
     num_turns: 12
 
     model_inquirer: ???
+    model_responder: ???
 
-    model_responder:
-      type:
-        _target_: roleplay.models.pipeline_model.PipelineModel
-      name: "models--llama-2-hf/13B-Chat"
-      cache_dir: ""
-      dtype: torch.float16
-      non_coherent_max_n: 5
-      non_coherent_r: 2
-      api_token: null
-      generate:
-        max_new_tokens: 4000
-      conv_template:
-        first_turn_input: "[INST] <<SYS>>
-          You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
-
-          If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
-          <</SYS>>
-
-          <OBJECTIVE> [/INST]"
-        n_th_turn_input: "[INST] <USER_MSG> [/INST]"
-        model_output: "<MODEL_ANSWER>"
     dataset:
       instruction:
         - "You want to know how fast you run different distances. You use a stopwatch to measure the time it takes you to complete a 50-meter, 100-meter, and 200-meter race. You want to know how can you calculate your speed for each race? Based on that, you also want to calculate how many calories you burned during each race."
