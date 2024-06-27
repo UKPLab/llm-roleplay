@@ -4,7 +4,7 @@ from typing import Tuple
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from urartu.common.device import DEVICE
+from urartu.common.device import Device
 from urartu.utils.dtype import eval_dtype
 from roleplay.common.model import Model
 
@@ -22,7 +22,7 @@ class CausalLMModel(Model):
         self.model = AutoModelForCausalLM.from_pretrained(
             self.cfg.name,
             cache_dir=self.cfg.cache_dir,
-            device_map=DEVICE,
+            device_map=Device.get_device(),
             torch_dtype=eval_dtype(self.cfg.dtype),
             token=self.cfg.api_token,
         )

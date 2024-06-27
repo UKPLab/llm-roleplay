@@ -2,7 +2,7 @@ from typing import Tuple
 
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
-from urartu.common.device import DEVICE
+from urartu.common.device import Device
 from urartu.utils.dtype import eval_dtype
 from roleplay.common.model import Model
 
@@ -20,7 +20,7 @@ class PipelineModel(Model):
         model = AutoModelForCausalLM.from_pretrained(
             self.cfg.name,
             cache_dir=self.cfg.cache_dir,
-            device_map=DEVICE,
+            device_map=Device.get_device(),
             torch_dtype=eval_dtype(self.cfg.dtype),
             token=self.cfg.api_token,
         )
@@ -31,7 +31,7 @@ class PipelineModel(Model):
             model=model,
             tokenizer=self.tokenizer,
             torch_dtype=eval_dtype(self.cfg.dtype),
-            device_map=DEVICE,
+            device_map=Device.get_device(),
             eos_token_id=self.tokenizer.eos_token_id,
         )
 

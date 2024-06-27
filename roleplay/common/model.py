@@ -5,7 +5,7 @@ import re
 import string
 from typing import Any, Dict, List
 
-from urartu.common.device import DEVICE
+from urartu.common.device import Device
 
 
 class Model:
@@ -83,15 +83,15 @@ class Model:
         return False
 
     def get_generation_cfg(self) -> Dict[str, Any]:
-        A_generate_cfg = copy.deepcopy(self.cfg.generate)
+        generation_cfg = copy.deepcopy(self.cfg.generate)
 
-        A_generate_cfg["do_sample"] = True
-        A_generate_cfg["top_k"] = random.randint(5, 50)
-        A_generate_cfg["penalty_alpha"] = random.random()
-        A_generate_cfg["num_beams"] = random.randint(4, 10)
-        A_generate_cfg["temperature"] = random.uniform(0.5, 1)
+        generation_cfg["do_sample"] = True
+        generation_cfg["top_k"] = random.randint(5, 50)
+        generation_cfg["penalty_alpha"] = random.random()
+        generation_cfg["num_beams"] = random.randint(4, 10)
+        generation_cfg["temperature"] = random.uniform(0.5, 1)
 
-        return A_generate_cfg
+        return generation_cfg
 
     @staticmethod
     def collate_tokenize(data, tokenizer, input_key):
@@ -102,5 +102,5 @@ class Model:
             else:
                 input_text = element[input_key]
             input_batch.append(input_text)
-        tokenized = tokenizer(input_batch, padding="longest", truncation=True, return_tensors="pt").to(DEVICE)
+        tokenized = tokenizer(input_batch, padding="longest", truncation=True, return_tensors="pt").to(Device.get_device())
         return tokenized
