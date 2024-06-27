@@ -1,9 +1,9 @@
 from typing import Tuple
 
-import torch  # NOQA
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
-from roleplay.common.device import DEVICE
+from urartu.common.device import DEVICE
+from urartu.utils.dtype import eval_dtype
 from roleplay.common.model import Model
 
 
@@ -21,7 +21,7 @@ class PipelineModel(Model):
             self.cfg.name,
             cache_dir=self.cfg.cache_dir,
             device_map=DEVICE,
-            torch_dtype=eval(self.cfg.dtype),
+            torch_dtype=eval_dtype(self.cfg.dtype),
             token=self.cfg.api_token,
         )
         self.tokenizer = AutoTokenizer.from_pretrained(self.cfg.name)
@@ -30,7 +30,7 @@ class PipelineModel(Model):
             "text-generation",
             model=model,
             tokenizer=self.tokenizer,
-            torch_dtype=eval(self.cfg.dtype),
+            torch_dtype=eval_dtype(self.cfg.dtype),
             device_map=DEVICE,
             eos_token_id=self.tokenizer.eos_token_id,
         )

@@ -8,8 +8,9 @@ from aim import Run, Text
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-from roleplay.common.action import Action
-from roleplay.common.dataset import Dataset
+from urartu.common.action import Action
+from urartu.common.dataset import Dataset
+
 from roleplay.common.persona import Persona
 
 
@@ -24,7 +25,7 @@ class Roleplay(Action):
             context=context,
         )
 
-    def run(self):
+    def main(self):
         self.aim_run["num_no_prompts"] = 0
         self.aim_run["num_multiple_prompts"] = 0
         self.aim_run["num_non_coherent"] = 0
@@ -221,4 +222,4 @@ class Roleplay(Action):
 
 def main(cfg: DictConfig, aim_run: Run):
     roleplay = Roleplay(cfg, aim_run)
-    roleplay.run()
+    roleplay.main()

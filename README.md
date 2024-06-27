@@ -121,16 +121,12 @@ You're all set to dive into goal-oriented, persona-based, diverse, and multi-tur
 Please use the following citation:
 
 ```
-@InProceedings{smith:20xx:CONFERENCE_TITLE,
-  author    = {Hovhannes Tamoyan},
-  title     = {LLM Roleplay: Simulating Human-Chatbot Interaction},
-  booktitle = {Proceedings of the 20XX Conference on XXXX},
-  month     = mmm,
-  year      = {20xx},
-  address   = {Gotham City, USA},
-  publisher = {Association for XXX},
-  pages     = {XXXX--XXXX},
-  url       = {http://xxxx.xxx}
+% todo
+@article{anonymous,
+  title={LLM Roleplay: Simulating Human-Chatbot Interaction},
+  author={Hovhannes Tamoyan, Hendrik Schuff, Iryna Gurevych},
+  journal={axiv},
+  year={2024}
 }
 ```
 

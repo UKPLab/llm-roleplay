@@ -5,7 +5,7 @@ import re
 import string
 from typing import Any, Dict, List
 
-from roleplay.common.device import DEVICE
+from urartu.common.device import DEVICE
 
 
 class Model:

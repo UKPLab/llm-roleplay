@@ -1,10 +1,10 @@
 import os
 
 from setuptools import find_packages, setup
+from pathlib import Path
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-# Version
 version_file = os.path.join(here, "roleplay", "VERSION")
 with open(version_file) as vf:
     __version__ = vf.read().strip()
@@ -15,22 +15,21 @@ with open(os.path.join(here, "requirements.txt"), "r") as f:
 
 # Package info
 NAME = "roleplay"
-DESCRIPTION = "ML framework"
+DESCRIPTION = "LLM Roleplay: Simulating Human-Chatbot Interaction"
 VERSION = __version__
-REQUIRES_PYTHON = "==3.9.16"
+REQUIRES_PYTHON = ">=3.9.0"
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     python_requires=REQUIRES_PYTHON,
     install_requires=requirements,
     packages=find_packages("."),
     package_dir={"": "."},
     zip_safe=False,
-    entry_points={
-        "console_scripts": [
-            "roleplay=roleplay.__init__:main",
-        ],
-    },
 )
