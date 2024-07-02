@@ -7,7 +7,6 @@ import torch
 from aim import Run, Text
 from omegaconf import DictConfig
 from tqdm import tqdm
-
 from urartu.common.action import Action
 from urartu.common.dataset import Dataset
 
@@ -58,7 +57,9 @@ class Roleplay(Action):
         model_inquirer.aim_run = self.aim_run
         model_responder.aim_run = self.aim_run
 
-        for idx, sample in tqdm(enumerate(dataset.dataset), total=len(dataset.dataset), desc="samples"):
+        for idx, sample in tqdm(
+            enumerate(dataset.dataset), total=len(dataset.dataset), desc="samples"
+        ):
             for persona, persona_hash in tqdm(personas, desc="personas", leave=False):
                 self.aim_run["personas"][persona_hash] = persona
 
@@ -67,7 +68,10 @@ class Roleplay(Action):
                 dialog = []
                 raw_dialog = []
 
-                instructions = [instruct.lstrip().rstrip() for instruct in sample[task_cfg.dataset.input_key].split("\n")]
+                instructions = [
+                    instruct.lstrip().rstrip()
+                    for instruct in sample[task_cfg.dataset.input_key].split("\n")
+                ]
 
                 if self.action_cfg.task.model_inquirer.regenerate_tries:
                     regeneratinon_idx = 0
@@ -97,7 +101,9 @@ class Roleplay(Action):
                         inquirer_output, _ = model_inquirer.generate(
                             prompt=inquirer_prompt,
                             generate_cfg=(
-                                inquirer_generate_cfg if inquirer_generate_cfg else self.action_cfg.task.model_inquirer.generate
+                                inquirer_generate_cfg
+                                if inquirer_generate_cfg
+                                else self.action_cfg.task.model_inquirer.generate
                             ),
                         )
                         if not inquirer_output:
@@ -121,13 +127,20 @@ class Roleplay(Action):
                         if model_inquirer.stop_dialog(inquirer_output):
                             break
 
-                        inquirer_output_extract, num_prompts = model_inquirer.extract_prompt(prompt=inquirer_output)
+                        inquirer_output_extract, num_prompts = (
+                            model_inquirer.extract_prompt(prompt=inquirer_output)
+                        )
 
                         if self.action_cfg.task.model_inquirer.regenerate_tries:
                             # --------------------- if model_inquirer failed to provide prompt ---------------------
                             if inquirer_output_extract is None:
-                                if regeneratinon_idx < self.action_cfg.task.model_inquirer.regenerate_tries:
-                                    inquirer_generate_cfg = model_inquirer.get_generation_cfg()
+                                if (
+                                    regeneratinon_idx
+                                    < self.action_cfg.task.model_inquirer.regenerate_tries
+                                ):
+                                    inquirer_generate_cfg = (
+                                        model_inquirer.get_generation_cfg()
+                                    )
                                     regeneratinon_idx += 1
                                     continue
                                 else:
@@ -156,11 +169,16 @@ class Roleplay(Action):
 
                         # As the context for model_inquirer is getting bigger much faster -> Starts answering it's own questions
                         # To prevent this keep in the inquirer_history only the output prompt(the thing that model_responder will see).
-                        model_inquirer.update_history(prompt=inquirer_prompt, output_extract=inquirer_output_extract)
+                        model_inquirer.update_history(
+                            prompt=inquirer_prompt,
+                            output_extract=inquirer_output_extract,
+                        )
 
                         # ------------------------------------------ Model B ------------------------------------------
 
-                        responder_prompt = model_responder.get_prompt(turn=turn, response_msg=inquirer_output_extract)
+                        responder_prompt = model_responder.get_prompt(
+                            turn=turn, response_msg=inquirer_output_extract
+                        )
 
                         self.track(
                             prompt=responder_prompt,
@@ -171,9 +189,11 @@ class Roleplay(Action):
                                 "persona_hash": persona_hash,
                             },
                         )
-                        responder_output, responder_model_output_template = model_responder.generate(
-                            prompt=responder_prompt,
-                            generate_cfg=self.action_cfg.task.model_responder.generate,
+                        responder_output, responder_model_output_template = (
+                            model_responder.generate(
+                                prompt=responder_prompt,
+                                generate_cfg=self.action_cfg.task.model_responder.generate,
+                            )
                         )
                         if not responder_output:
                             break
@@ -192,7 +212,10 @@ class Roleplay(Action):
                             self.aim_run["num_non_coherent_model_responder"] += 1
                             break
 
-                        model_responder.update_history(prompt=responder_prompt, output_extract=responder_model_output_template)
+                        model_responder.update_history(
+                            prompt=responder_prompt,
+                            output_extract=responder_model_output_template,
+                        )
 
                         # --------------------------------------- Save the dialog ---------------------------------------
                         dialog.append(
@@ -209,7 +232,9 @@ class Roleplay(Action):
                         turn += 1
                         pbar.update(1)
 
-                with jsonlines.open(records_dir.joinpath(f"{self.cfg.seed}.jsonl"), mode="a") as writer:
+                with jsonlines.open(
+                    records_dir.joinpath(f"{self.cfg.seed}.jsonl"), mode="a"
+                ) as writer:
                     writer.write(
                         {
                             "persona": persona,

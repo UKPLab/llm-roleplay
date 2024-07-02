@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 
-from urartu.common.dataset import Dataset
 from datasets import Dataset as HFDataset
+from urartu.common.dataset import Dataset
 
 
 class HFDatasets(Dataset):

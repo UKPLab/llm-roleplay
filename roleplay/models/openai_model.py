@@ -42,17 +42,23 @@ class OpenAIModel(Model):
                 return prompt
             else:
                 if len(instructions) > 1 and turn < len(instructions):
-                    response_forwarding = self.conv_template.mid_response_forwarding.replace(
-                        self.spec_tokens.next_prompt, instructions[turn]
+                    response_forwarding = (
+                        self.conv_template.mid_response_forwarding.replace(
+                            self.spec_tokens.next_prompt, instructions[turn]
+                        )
                     )
                 else:
-                    response_forwarding = self.conv_template.response_forwarding.replace(
-                        self.spec_tokens.next_prompt, ""
+                    response_forwarding = (
+                        self.conv_template.response_forwarding.replace(
+                            self.spec_tokens.next_prompt, ""
+                        )
                     )
 
                 return self.conv_template.n_th_turn_input.replace(
                     self.spec_tokens.user_msg,
-                    response_forwarding.replace(self.spec_tokens.response_placeholder, response_msg),
+                    response_forwarding.replace(
+                        self.spec_tokens.response_placeholder, response_msg
+                    ),
                 )
         elif self.role == "model_responder":
             if turn == 0:
@@ -61,7 +67,9 @@ class OpenAIModel(Model):
                     response_msg,
                 )
             else:
-                return self.conv_template.n_th_turn_input.replace(self.spec_tokens.user_msg, response_msg)
+                return self.conv_template.n_th_turn_input.replace(
+                    self.spec_tokens.user_msg, response_msg
+                )
         else:
             raise NotImplementedError(f"unknown role: {self.role}")
 
@@ -74,13 +82,21 @@ class OpenAIModel(Model):
         else:
             self.history.append(HumanMessage(content=prompt))
 
-        num_history_words = sum([self._get_num_tokens(item.content) for item in self.history])
+        num_history_words = sum(
+            [self._get_num_tokens(item.content) for item in self.history]
+        )
         if generate_cfg.max_new_tokens + num_history_words > self.cfg.context_length:
-            delta = generate_cfg.max_new_tokens + num_history_words - self.cfg.context_length
+            delta = (
+                generate_cfg.max_new_tokens
+                + num_history_words
+                - self.cfg.context_length
+            )
             i = 1
             while delta > 0:
                 len_human_utterance = self._get_num_tokens(self.history[i].content)
-                len_aiassistant_utterance = self._get_num_tokens(self.history[i + 1].content)
+                len_aiassistant_utterance = self._get_num_tokens(
+                    self.history[i + 1].content
+                )
                 delta -= len_human_utterance + len_aiassistant_utterance
                 i += 2
             del self.history[1:i]

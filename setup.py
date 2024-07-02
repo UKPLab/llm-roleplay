@@ -1,7 +1,7 @@
 import os
+from pathlib import Path
 
 from setuptools import find_packages, setup
-from pathlib import Path
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -26,7 +26,7 @@ setup(
     version=VERSION,
     description=DESCRIPTION,
     long_description=long_description,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     python_requires=REQUIRES_PYTHON,
     install_requires=requirements,
     packages=find_packages("."),
