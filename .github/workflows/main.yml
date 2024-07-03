@@ -67,25 +67,3 @@ jobs:
           pylint --disable=trailing-whitespace,missing-class-docstring,missing-final-newline,trailing-newlines \
                   --fail-under=9.0 \
                   $(git ls-files '*.py') || echo "::warning::Pylint check failed, but the workflow will continue."
-
-  python-build-n-publish:
-    name: Build and publish Python distribution
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install setuptools wheel twine
-      - name: Build and publish
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          git fetch --all --tags
-          python setup.py sdist bdist_wheel
-          twine upload --verbose dist/*

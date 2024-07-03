@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-version_file = os.path.join(here, "roleplay", "VERSION")
+version_file = os.path.join(here, "llm_roleplay", "VERSION")
 with open(version_file) as vf:
     __version__ = vf.read().strip()
 
@@ -14,7 +14,7 @@ with open(os.path.join(here, "requirements.txt"), "r") as f:
     requirements = f.read().splitlines()
 
 # Package info
-NAME = "roleplay"
+NAME = "llm-roleplay"
 DESCRIPTION = "LLM Roleplay: Simulating Human-Chatbot Interaction"
 VERSION = __version__
 REQUIRES_PYTHON = ">=3.9.0"

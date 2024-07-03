@@ -10,7 +10,7 @@ from tqdm import tqdm
 from urartu.common.action import Action
 from urartu.common.dataset import Dataset
 
-from roleplay.common.persona import Persona
+from llm_roleplay.common.persona import Persona
 
 
 class Roleplay(Action):
