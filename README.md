@@ -23,7 +23,7 @@ We compare the abilities of state-of-the-art LLMs in embodying personas and hold
 </div>
 
 <p align="center">
-  <img width="350" alt="roleplay-schema" src="https://github.com/UKPLab/roleplay/assets/23078323/085c51e0-248b-4594-a2f6-6f820f662eba">
+  <img width="350" alt="roleplay-schema" src="https://github.com/UKPLab/roleplay/assets/23078323/c456327d-d95c-41d0-acd1-f75fefeaf18d">
 </p>
 
 
