@@ -1,6 +1,7 @@
 <!--- BADGES: START --->
 [![arXiv](https://img.shields.io/badge/arXiv-TO.DO-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)
 [![GitHub - License](https://img.shields.io/github/license/UKPLab/roleplay)](https://opensource.org/licenses/Apache-2.0)
+[![PyPI - Package Version](https://img.shields.io/pypi/v/llm-roleplay?logo=pypi&style=flat&color=orange)](https://pypi.org/project/llm-roleplay)
 [![PyPI - Python Version](https://img.shields.io/badge/Python-3.9-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 <!--- BADGES: END --->
 
