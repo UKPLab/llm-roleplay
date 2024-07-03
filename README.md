@@ -1,7 +1,15 @@
+<!--- BADGES: START --->
+[![arXiv](https://img.shields.io/badge/arXiv-TO.DO-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)
+[![GitHub - License](https://img.shields.io/github/license/UKPLab/roleplay?logo=github&style=flat&color=green)](https://opensource.org/licenses/Apache-2.0)
+[![PyPI - Python Version](https://img.shields.io/badge/Python-3.9-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+<!--- BADGES: END --->
+
+
 # LLM Roleplay: Simulating Human-Chatbot Interaction
 
+Roleplay is a Python package that provides an easy method for generating goal-oriented, persona-based multi-turn dialogues, simulating diverse human-chatbot interactions.
+This repository contains the code and data for the LLM Roleplay method, as presented in the paper [LLM Roleplay: Simulating Human-Chatbot Interaction](https://arxiv.org). It includes all the experiment codes and the necessary data to replicate them, as described in the paper.
 
-Roleplay is a Python package that provides a framework for generating goal-oriented, persona-based multi-turn dialogues, simulating diverse human-chatbot interactions.
 
 ## More About Roleplay
 <div>
@@ -17,6 +25,9 @@ We compare the abilities of state-of-the-art LLMs in embodying personas and hold
 <p align="center">
   <img width="350" alt="roleplay-schema" src="https://github.com/UKPLab/roleplay/assets/23078323/085c51e0-248b-4594-a2f6-6f820f662eba">
 </p>
+
+
+
 
 The LLM Roleplay (roleplay) codebase is built upon the [UrarTU framework](https://github.com/tamohannes/urartu) (version 2). For detailed insights into its structure, please refer to the [Getting Started Guide](https://github.com/tamohannes/urartu/blob/master/getting_started.md).
 
@@ -139,7 +150,7 @@ Please use the following citation:
 
 
 
-## Contact persons 
+## Contacts
 
 [Hovhannes Tamoyan](mailto:hovhannes.tamoyan@tu-darmstadt.de), [Hendrik Schuff](schuff@ukp.tu-darmstadt.de)
 
@@ -148,3 +159,8 @@ Please feel free to contact us if you have any questions or need to report any i
 ## Links
 
 [UKP Lab Homepage](https://www.ukp.tu-darmstadt.de/) | [TU Darmstadt Website](https://www.tu-darmstadt.de/index.en.jsp)
+
+
+## Disclaimer
+
+> This repository contains experimental software and is published for the sole purpose of giving additional background details on the respective publication. 
