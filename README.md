@@ -1,18 +1,19 @@
 <!--- BADGES: START --->
-[![arXiv](https://img.shields.io/badge/arXiv-TO.DO-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)
-[![GitHub - License](https://img.shields.io/github/license/UKPLab/roleplay)](https://opensource.org/licenses/Apache-2.0)
-[![PyPI - Package Version](https://img.shields.io/pypi/v/llm-roleplay?logo=pypi&style=flat&color=orange)](https://pypi.org/project/llm-roleplay)
-[![PyPI - Python Version](https://img.shields.io/badge/Python-3.9-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
-<!--- BADGES: END --->
 
+[![arXiv](https://img.shields.io/badge/arXiv-red?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2407.03974)
+[![PyPI - Package Version](https://img.shields.io/pypi/v/llm-roleplay?logo=pypi&style=flat&color=orange)](https://pypi.org/project/llm-roleplay/)
+[![GitHub - License](https://img.shields.io/github/license/UKPLab/roleplay)](https://opensource.org/licenses/Apache-2.0)
+[![PyPI - Python Version](https://img.shields.io/badge/Python-3.9-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+
+<!--- BADGES: END --->
 
 # LLM Roleplay: Simulating Human-Chatbot Interaction
 
 Roleplay is a Python package that provides an easy method for generating goal-oriented, persona-based multi-turn dialogues, simulating diverse human-chatbot interactions.
 This repository contains the code and data for the LLM Roleplay method, as presented in the paper [LLM Roleplay: Simulating Human-Chatbot Interaction](https://arxiv.org). It includes all the experiment codes and the necessary data to replicate them, as described in the paper.
 
-
 ## More About Roleplay
+
 <div>
 The development of chatbots requires collecting a large number of human-chatbot dialogues to reflect the breadth of users' sociodemographic backgrounds and conversational goals.
 However, the resource requirements to conduct the respective user studies can be prohibitively high and often only allow for a narrow analysis of specific dialogue goals and participant demographics.
@@ -27,12 +28,10 @@ We compare the abilities of state-of-the-art LLMs in embodying personas and hold
   <img width="350" alt="roleplay-schema" src="https://github.com/UKPLab/roleplay/assets/23078323/c456327d-d95c-41d0-acd1-f75fefeaf18d">
 </p>
 
-
-
-
 The LLM Roleplay (roleplay) codebase is built upon the [UrarTU framework](https://github.com/tamohannes/urartu) (version 2). For detailed insights into its structure, please refer to the [Getting Started Guide](https://github.com/tamohannes/urartu/blob/master/getting_started.md).
 
 ## Installation
+
 Getting started with roleplay is a breeze! 💨 Just follow these steps to set up the necessary packages and create a local package called `roleplay`:
 
 - Clone the repository: `git clone git@github.com:UKPLab/roleplay.git`
@@ -47,13 +46,12 @@ urartu --help
 ```
 
 Now, to register `roleplay` under the corresponding name in `urartu` we need to run the following command by providing the path where the module is located, for more info refere to [UrarTU's documentation](https://pypi.org/project/urartu/):
+
 ```bash
 urartu register --name=roleplay --path=PATH_TO_ROLEPLAY/roleplay
 ```
 
 After this you can run `urartu -h` again to see the available modules under `launch` command and make sure that `roleplay` is present there.
-
-
 
 ### Exploring the Experiments
 
@@ -68,12 +66,13 @@ aim server
 Since we are running the Aim server on our local machine, we will use the address: `aim://0.0.0.0:53800`. For remote tracking, refer to [Track experiments with aim remote server](https://aimstack.readthedocs.io/en/latest/using/remote_tracking.html).
 
 To explore the wealth of metrics that Aim captures effortlessly, follow these steps:
+
 - Navigate to the directory containing the `.aim` repository.
 - Run the command that sparks the magic:
+
 ```bash
 aim up
 ```
-
 
 ## Usage
 
@@ -91,33 +90,32 @@ To execute the command on a Slurm cluster, modify the `roleplay/configs/action_c
 > You might need to log in to HuggingFace to authenticate your use of Mistral 8x7B. To do this, use the `huggingface-cli` login command and provide your access token.
 > To obtain a HuggingFace access token, refer to [User access tokens](https://huggingface.co/docs/hub/en/security-tokens).
 
-
 ## Configs: Tailoring Your Setup
 
 The default configs which shape the way of configs are defined in `urartu` under `urartu/config` directory:
+
 - `urartu/config/main.yaml`: This core configuration file sets the foundation for default settings, covering all available keys within the system.
 - `urartu/config/action_config` Directory: A designated space for specific action configurations.
-For more see the structure of [UrarTU](https://github.com/tamohannes/urartu).
+  For more see the structure of [UrarTU](https://github.com/tamohannes/urartu).
 
 ### Crafting Customizations
 
-You have two flexible options for tailoring your configurations in `roleplay`. 
+You have two flexible options for tailoring your configurations in `roleplay`.
 
-1. **Custom Config Files**: To simplify configuration adjustments, `roleplay` provides a dedicated `configs` directory where you can store personalized configuration files. These files seamlessly integrate with Hydra's search path. The directory structure mirrors that of `urartu/config`. You can define project-specific configurations in specially named files.
-The `generate_dialogues.yaml` file within the `configs` directory houses all the configurations specific to our `roleplay` project, with customized settings.
+1.  **Custom Config Files**: To simplify configuration adjustments, `roleplay` provides a dedicated `configs` directory where you can store personalized configuration files. These files seamlessly integrate with Hydra's search path. The directory structure mirrors that of `urartu/config`. You can define project-specific configurations in specially named files.
+    The `generate_dialogues.yaml` file within the `configs` directory houses all the configurations specific to our `roleplay` project, with customized settings.
 
-    - **Personalized User Configs**: To further tailor configurations for individual users, create a directory named `configs_{username}` at the same level as the `configs` directory, where `{username}` represents your operating system username (check out `configs_tamoyan` for an example). The beauty of this approach is that there are no additional steps required. Your customizations will smoothly load and override the default configurations, ensuring a seamless and hassle-free experience. ✨
+        - **Personalized User Configs**: To further tailor configurations for individual users, create a directory named `configs_{username}` at the same level as the `configs` directory, where `{username}` represents your operating system username (check out `configs_tamoyan` for an example). The beauty of this approach is that there are no additional steps required. Your customizations will smoothly load and override the default configurations, ensuring a seamless and hassle-free experience. ✨
 
-    The order of precedence for configuration overrides is as follows: `urartu/config`, `roleplay/configs`, `roleplay/configs_{username}`, giving priority to user-specific configurations.
+        The order of precedence for configuration overrides is as follows: `urartu/config`, `roleplay/configs`, `roleplay/configs_{username}`, giving priority to user-specific configurations.
 
-2. **CLI Approach**: For those who prefer a command-line interface (CLI) approach, `urartu` offers a convenient method. You can enhance your commands with specific key-value pairs directly in the CLI. For example, modifying your working directory path is as simple as:
+2.  **CLI Approach**: For those who prefer a command-line interface (CLI) approach, `urartu` offers a convenient method. You can enhance your commands with specific key-value pairs directly in the CLI. For example, modifying your working directory path is as simple as:
 
     ```bash
     urartu launch --name=roleplay action_config=roleplay action_config.workdir=PATH_TO_WORKDIR
     ```
 
 Choose the method that suits your workflow best and enjoy the flexibility `urartu` provides for crafting custom configurations.
-
 
 ### Effortless Launch
 
@@ -128,12 +126,9 @@ With `urartu`, launching actions is incredibly easy, offering you two options. �
 
 Enjoy the flexibility to choose the launch adventure that best suits your needs and goals!
 
-
-
 ---
+
 You're all set to dive into goal-oriented, persona-based, diverse, and multi-turn dialogue generation with `roleplay`! 🌟 If you encounter any issues or have suggestions, feel free to open an issue for assistance. 😊
-
-
 
 ## Cite
 
@@ -141,15 +136,16 @@ Please use the following citation:
 
 ```
 % todo
-@article{anonymous,
+@article{tamoyan2024llmroleplaysimulatinghumanchatbot,
   title={LLM Roleplay: Simulating Human-Chatbot Interaction},
-  author={Hovhannes Tamoyan, Hendrik Schuff, Iryna Gurevych},
-  journal={axiv},
-  year={2024}
+  author={Hovhannes Tamoyan and Hendrik Schuff and Iryna Gurevych},
+  year={2024},
+  eprint={2407.03974},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL},
+  url={https://arxiv.org/abs/2407.03974},
 }
 ```
-
-
 
 ## Contacts
 
@@ -161,7 +157,6 @@ Please feel free to contact us if you have any questions or need to report any i
 
 [UKP Lab Homepage](https://www.ukp.tu-darmstadt.de/) | [TU Darmstadt Website](https://www.tu-darmstadt.de/index.en.jsp)
 
-
 ## Disclaimer
 
-> This repository contains experimental software and is published for the sole purpose of giving additional background details on the respective publication. 
+> This repository contains experimental software and is published for the sole purpose of giving additional background details on the respective publication.
