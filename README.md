@@ -135,8 +135,7 @@ You're all set to dive into goal-oriented, persona-based, diverse, and multi-tur
 Please use the following citation:
 
 ```
-% todo
-@article{tamoyan2024llmroleplaysimulatinghumanchatbot,
+@misc{tamoyan2024llmroleplaysimulatinghumanchatbot,
   title={LLM Roleplay: Simulating Human-Chatbot Interaction},
   author={Hovhannes Tamoyan and Hendrik Schuff and Iryna Gurevych},
   year={2024},
