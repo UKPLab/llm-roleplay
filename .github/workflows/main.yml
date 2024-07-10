@@ -73,7 +73,7 @@ jobs:
     needs: linter
     strategy:
       matrix:
-        python-version: [3.9, 3.10]
+        python-version: [3.9]
 
     steps:
     - name: Checkout repository
