@@ -25,37 +25,37 @@ We compare the abilities of state-of-the-art LLMs in embodying personas and hold
 </div>
 
 <p align="center">
-  <img width="350" alt="roleplay-schema" src="https://github.com/UKPLab/roleplay/assets/23078323/c456327d-d95c-41d0-acd1-f75fefeaf18d">
+  <img width="350" alt="llm-roleplay-schema" src="https://github.com/UKPLab/llm-roleplay/assets/23078323/c456327d-d95c-41d0-acd1-f75fefeaf18d">
 </p>
 
-The LLM Roleplay (roleplay) codebase is built upon the [UrarTU framework](https://github.com/tamohannes/urartu) (version 2). For detailed insights into its structure, please refer to the [Getting Started Guide](https://github.com/tamohannes/urartu/blob/master/getting_started.md).
+The LLM Roleplay (llm-roleplay) codebase is built upon the [UrarTU framework](https://github.com/tamohannes/urartu) (version 2). For detailed insights into its structure, please refer to the [Getting Started Guide](https://github.com/tamohannes/urartu/blob/master/getting_started.md).
 
 ## Installation
 
-Getting started with roleplay is a breeze! 💨 Just follow these steps to set up the necessary packages and create a local package called `roleplay`:
+Getting started with llm-roleplay is a breeze! 💨 Just follow these steps to set up the necessary packages and create a local package called `llm-roleplay`:
 
-- Clone the repository: `git clone git@github.com:UKPLab/roleplay.git`
-- Navigate to the project directory: `cd roleplay`
+- Clone the repository: `git clone git@github.com:UKPLab/llm-roleplay.git`
+- Navigate to the project directory: `cd llm-roleplay`
 - Execute the magic command: `pip install .`
 
-🪄 After running the previous command, `roleplay` will install the required packages including the latest version of `urartu` (>=2.0) and make it ready to use.
-Plus, an alias will be created, allowing you to access roleplay from any directory on your operating system effortlessly:
+🪄 After running the previous command, `llm-roleplay` will install the required packages including the latest version of `urartu` (>=2.0) and make it ready to use.
+Plus, an alias will be created, allowing you to access llm-roleplay from any directory on your operating system effortlessly:
 
 ```bash
 urartu --help
 ```
 
-Now, to register `roleplay` under the corresponding name in `urartu` we need to run the following command by providing the path where the module is located, for more info refere to [UrarTU's documentation](https://pypi.org/project/urartu/):
+Now, to register `llm-roleplay` under the corresponding name in `urartu` we need to run the following command by providing the path where the module is located, for more info refere to [UrarTU's documentation](https://pypi.org/project/urartu/):
 
 ```bash
-urartu register --name=roleplay --path=PATH_TO_ROLEPLAY/roleplay
+urartu register --name=llm_roleplay --path=PATH_TO_ROLEPLAY/llm_roleplay
 ```
 
-After this you can run `urartu -h` again to see the available modules under `launch` command and make sure that `roleplay` is present there.
+After this you can run `urartu -h` again to see the available modules under `launch` command and make sure that `llm_roleplay` is present there.
 
 ### Exploring the Experiments
 
-Before diving into using `roleplay`, let's set up [Aim](https://github.com/aimhubio/aim). This tool will track our experiment metadata and generated dialogues, storing them locally on our system.
+Before diving into using `llm-roleplay`, let's set up [Aim](https://github.com/aimhubio/aim). This tool will track our experiment metadata and generated dialogues, storing them locally on our system.
 
 Let's start the Aim server to store all the metadata and dialogues of our experiments. By default, it will run on port `53800`. Use this command to get it running:
 
@@ -76,15 +76,15 @@ aim up
 
 ## Usage
 
-Let's get started with generating dialogues using the `roleplay` action. The process is simple: just provide the name of the configuration file containing the action, followed by the action name itself. For the `roleplay` action, we'll initiate it by using the Mistral 8x7B model as the inquirer. 🎇
+Let's get started with generating dialogues using the `llm-roleplay` action. The process is simple: just provide the name of the configuration file containing the action, followed by the action name itself. For the `llm-roleplay` action, we'll initiate it by using the Mistral 8x7B model as the inquirer. 🎇
 
 ```bash
-urartu launch --name=roleplay action_config=roleplay +action_config/task/model_inquirer=mixtral +action_config/task/model_responder=llama action_config.task.model_inquirer.api_token="YOUR_TOKEN"
+urartu launch --name=llm_roleplay action_config=dialogue_generator +action_config/task/model_inquirer=mixtral +action_config/task/model_responder=llama action_config.task.model_inquirer.api_token="YOUR_TOKEN"
 ```
 
 The `action_config` parameter specifies which configuration file to use to run the action. Afterward, we define the configuration file for the inquirer using the `model_inquirer` argument and set the configuration for the responder with the `model_responder` argument.
 
-To execute the command on a Slurm cluster, modify the `roleplay/configs/action_config/dialogue_generator.yaml` file with the corresponding fields, and then use the same command to run the job. For more details on how to edit the configuration files, please refer to the upcoming sections.
+To execute the command on a Slurm cluster, modify the `llm_roleplay/configs/action_config/dialogue_generator.yaml` file with the corresponding fields, and then use the same command to run the job. For more details on how to edit the configuration files, please refer to the upcoming sections.
 
 > **Huggingface Authentication**
 > You might need to log in to HuggingFace to authenticate your use of Mistral 8x7B. To do this, use the `huggingface-cli` login command and provide your access token.
@@ -100,19 +100,19 @@ The default configs which shape the way of configs are defined in `urartu` under
 
 ### Crafting Customizations
 
-You have two flexible options for tailoring your configurations in `roleplay`.
+You have two flexible options for tailoring your configurations in `llm-roleplay`.
 
-1.  **Custom Config Files**: To simplify configuration adjustments, `roleplay` provides a dedicated `configs` directory where you can store personalized configuration files. These files seamlessly integrate with Hydra's search path. The directory structure mirrors that of `urartu/config`. You can define project-specific configurations in specially named files.
-    The `dialogue_generator.yaml` file within the `configs` directory houses all the configurations specific to our `roleplay` project, with customized settings.
+1.  **Custom Config Files**: To simplify configuration adjustments, `llm-roleplay` provides a dedicated `configs` directory where you can store personalized configuration files. These files seamlessly integrate with Hydra's search path. The directory structure mirrors that of `urartu/config`. You can define project-specific configurations in specially named files.
+    The `dialogue_generator.yaml` file within the `configs` directory houses all the configurations specific to our `llm-roleplay` project, with customized settings.
 
         - **Personalized User Configs**: To further tailor configurations for individual users, create a directory named `configs_{username}` at the same level as the `configs` directory, where `{username}` represents your operating system username (check out `configs_tamoyan` for an example). The beauty of this approach is that there are no additional steps required. Your customizations will smoothly load and override the default configurations, ensuring a seamless and hassle-free experience. ✨
 
-        The order of precedence for configuration overrides is as follows: `urartu/config`, `roleplay/configs`, `roleplay/configs_{username}`, giving priority to user-specific configurations.
+        The order of precedence for configuration overrides is as follows: `urartu/config`, `llm_roleplay/configs`, `llm_roleplay/configs_{username}`, giving priority to user-specific configurations.
 
 2.  **CLI Approach**: For those who prefer a command-line interface (CLI) approach, `urartu` offers a convenient method. You can enhance your commands with specific key-value pairs directly in the CLI. For example, modifying your working directory path is as simple as:
 
     ```bash
-    urartu launch --name=roleplay action_config=roleplay action_config.workdir=PATH_TO_WORKDIR
+    urartu launch --name=llm_roleplay action_config=dialogue_generator action_config.workdir=PATH_TO_WORKDIR
     ```
 
 Choose the method that suits your workflow best and enjoy the flexibility `urartu` provides for crafting custom configurations.
@@ -122,13 +122,13 @@ Choose the method that suits your workflow best and enjoy the flexibility `urart
 With `urartu`, launching actions is incredibly easy, offering you two options. 🚀
 
 - **Local Marvel:** This option allows you to run jobs on your local machine, right where the script is executed.
-- **Cluster Voyage:** This choice takes you on a journey to the Slurm cluster. By adjusting the `slurm.use_slurm` setting in `roleplay/configs/action_config/dialogue_generator.yaml`, you can easily switch between local and cluster execution.
+- **Cluster Voyage:** This choice takes you on a journey to the Slurm cluster. By adjusting the `slurm.use_slurm` setting in `llm_roleplay/configs/action_config/dialogue_generator.yaml`, you can easily switch between local and cluster execution.
 
 Enjoy the flexibility to choose the launch adventure that best suits your needs and goals!
 
 ---
 
-You're all set to dive into goal-oriented, persona-based, diverse, and multi-turn dialogue generation with `roleplay`! 🌟 If you encounter any issues or have suggestions, feel free to open an issue for assistance. 😊
+You're all set to dive into goal-oriented, persona-based, diverse, and multi-turn dialogue generation with `llm-roleplay`! 🌟 If you encounter any issues or have suggestions, feel free to open an issue for assistance. 😊
 
 ## Cite
 

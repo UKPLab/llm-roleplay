@@ -4,7 +4,7 @@ seed: 5
 
 action_config:
   workdir: "./"
-  experiment_name: roleplay
+  experiment_name: generate dialogues
   device: "auto" # auto, cuda, cpu (default)
 
   task:
