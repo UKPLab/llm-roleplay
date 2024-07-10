@@ -3,6 +3,7 @@ import logging
 import random
 import re
 import string
+import hydra
 from typing import Any, Dict, List
 
 from urartu.common.device import Device
@@ -18,10 +19,14 @@ class Model:
         self.tokenizer = None
         self.role = role
         self.history = []
-        self._load_model()
+        self._get_model()
 
-    def _load_model(self):
-        raise NotImplementedError("method '_load_model' is not implemented")
+    @staticmethod
+    def get_model(cfg, role):
+        return hydra.utils.instantiate(cfg.type, cfg, role)
+
+    def _get_model(self):
+        raise NotImplementedError("method '_get_model' is not implemented")
 
     def get_prompt(self, turn, response_msg, persona=None, instructions=None):
         raise NotImplementedError("method 'get_prompt' is not implemented")

@@ -6,7 +6,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from urartu.common.device import Device
 from urartu.utils.dtype import eval_dtype
 
-from roleplay.common.model import Model
+from llm_roleplay.common.model import Model
 
 
 class CausalLMModel(Model):
@@ -18,7 +18,7 @@ class CausalLMModel(Model):
     def __init__(self, cfg, role) -> None:
         super().__init__(cfg, role)
 
-    def _load_model(self) -> Tuple[AutoModelForCausalLM, AutoTokenizer]:
+    def _get_model(self) -> Tuple[AutoModelForCausalLM, AutoTokenizer]:
         self.model = AutoModelForCausalLM.from_pretrained(
             self.cfg.name,
             cache_dir=self.cfg.cache_dir,

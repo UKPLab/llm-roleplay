@@ -1,5 +1,5 @@
 type:
-  _target_: roleplay.models.pipeline_model.PipelineModel
+  _target_: llm_roleplay.models.pipeline_model.PipelineModel
 name: "models--llama-2-hf/13B-Chat"
 cache_dir: ""
 dtype: torch.float16

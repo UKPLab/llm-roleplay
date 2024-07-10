@@ -1,6 +1,7 @@
 type:
-  _target_: roleplay.models.causal_lm_model.CausalLMModel
+  _target_: llm_roleplay.models.causal_lm_model.CausalLMModel
 name: "mistralai/Mixtral-8x7B-Instruct-v0.1"
+role: "inquirer"
 cache_dir: ""
 dtype: torch.float16
 non_coherent_max_n: 4

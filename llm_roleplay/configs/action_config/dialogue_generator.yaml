@@ -1,5 +1,5 @@
 # @package _global_
-action_name: generate_dialogues
+action_name: dialogue_generator
 seed: 5
 
 action_config:
@@ -15,7 +15,7 @@ action_config:
 
     dataset:
       type:
-        _target_: roleplay.datasets.hf_datasets.HFDatasets
+        _target_: llm_roleplay.datasets.hf_datasets.HFDatasets
       input_key: "instruction"
       data:
         instruction:

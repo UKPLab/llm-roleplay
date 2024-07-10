@@ -84,7 +84,7 @@ urartu launch --name=roleplay action_config=roleplay +action_config/task/model_i
 
 The `action_config` parameter specifies which configuration file to use to run the action. Afterward, we define the configuration file for the inquirer using the `model_inquirer` argument and set the configuration for the responder with the `model_responder` argument.
 
-To execute the command on a Slurm cluster, modify the `roleplay/configs/action_config/generate_dialogues.yaml` file with the corresponding fields, and then use the same command to run the job. For more details on how to edit the configuration files, please refer to the upcoming sections.
+To execute the command on a Slurm cluster, modify the `roleplay/configs/action_config/dialogue_generator.yaml` file with the corresponding fields, and then use the same command to run the job. For more details on how to edit the configuration files, please refer to the upcoming sections.
 
 > **Huggingface Authentication**
 > You might need to log in to HuggingFace to authenticate your use of Mistral 8x7B. To do this, use the `huggingface-cli` login command and provide your access token.
@@ -103,7 +103,7 @@ The default configs which shape the way of configs are defined in `urartu` under
 You have two flexible options for tailoring your configurations in `roleplay`.
 
 1.  **Custom Config Files**: To simplify configuration adjustments, `roleplay` provides a dedicated `configs` directory where you can store personalized configuration files. These files seamlessly integrate with Hydra's search path. The directory structure mirrors that of `urartu/config`. You can define project-specific configurations in specially named files.
-    The `generate_dialogues.yaml` file within the `configs` directory houses all the configurations specific to our `roleplay` project, with customized settings.
+    The `dialogue_generator.yaml` file within the `configs` directory houses all the configurations specific to our `roleplay` project, with customized settings.
 
         - **Personalized User Configs**: To further tailor configurations for individual users, create a directory named `configs_{username}` at the same level as the `configs` directory, where `{username}` represents your operating system username (check out `configs_tamoyan` for an example). The beauty of this approach is that there are no additional steps required. Your customizations will smoothly load and override the default configurations, ensuring a seamless and hassle-free experience. ✨
 
@@ -122,7 +122,7 @@ Choose the method that suits your workflow best and enjoy the flexibility `urart
 With `urartu`, launching actions is incredibly easy, offering you two options. 🚀
 
 - **Local Marvel:** This option allows you to run jobs on your local machine, right where the script is executed.
-- **Cluster Voyage:** This choice takes you on a journey to the Slurm cluster. By adjusting the `slurm.use_slurm` setting in `roleplay/configs/action_config/generate_dialogues.yaml`, you can easily switch between local and cluster execution.
+- **Cluster Voyage:** This choice takes you on a journey to the Slurm cluster. By adjusting the `slurm.use_slurm` setting in `roleplay/configs/action_config/dialogue_generator.yaml`, you can easily switch between local and cluster execution.
 
 Enjoy the flexibility to choose the launch adventure that best suits your needs and goals!
 
