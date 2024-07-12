@@ -124,14 +124,14 @@ class TestRoleplay(unittest.TestCase):
     @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
     @patch("llm_roleplay.models.pipeline_model.PipelineModel.generate")
     @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.generate")
-    @patch("llm_roleplay.models.openai_model.OpenAIModel._get_model")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel._get_model")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel._get_model")
+    @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
+    @patch("llm_roleplay.models.pipeline_model.PipelineModel.model")
+    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.model")
     def test_initialization(
         self,
-        mock_get_model_clm,
-        mock_get_model_pipe,
-        mock_get_mode_openai,
+        mock_model_clm,
+        mock_model_pipe,
+        mock_model_openai,
         mock_generate_clm,
         mock_generate_pipe,
         mock_generate_openai,
@@ -185,16 +185,16 @@ class TestRoleplay(unittest.TestCase):
     @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
     @patch("llm_roleplay.models.pipeline_model.PipelineModel.generate")
     @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.generate")
-    @patch("llm_roleplay.models.openai_model.OpenAIModel._get_model")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel._get_model")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel._get_model")
+    @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
+    @patch("llm_roleplay.models.pipeline_model.PipelineModel.model")
+    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.model")
     @patch("torch.cuda.empty_cache")
     def test_resource_management(
         self,
         mock_empty_cache,
-        mock_get_model_clm,
-        mock_get_model_pipe,
-        mock_get_mode_openai,
+        mock_model_clm,
+        mock_model_pipe,
+        mock_model_openai,
         mock_generate_clm,
         mock_generate_pipe,
         mock_generate_openai,
@@ -226,14 +226,14 @@ class TestRoleplay(unittest.TestCase):
     @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
     @patch("llm_roleplay.models.pipeline_model.PipelineModel.generate")
     @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.generate")
-    @patch("llm_roleplay.models.openai_model.OpenAIModel._get_model")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel._get_model")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel._get_model")
+    @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
+    @patch("llm_roleplay.models.pipeline_model.PipelineModel.model")
+    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.model")
     def test_dialogue_generation(
         self,
-        mock_get_model_clm,
-        mock_get_model_pipe,
-        mock_get_mode_openai,
+        mock_model_clm,
+        mock_model_pipe,
+        mock_model_openai,
         mock_generate_clm,
         mock_generate_pipe,
         mock_generate_openai,
