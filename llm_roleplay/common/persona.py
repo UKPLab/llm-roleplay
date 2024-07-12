@@ -21,7 +21,7 @@ class Persona:
                 personas.append((persona, persona_hash))
             return personas
         else:
-            Persona.generate_personas(cfg)
+            return Persona.generate_personas(cfg)
 
     @staticmethod
     def generate_personas(cfg) -> List[Tuple[str, Dict[str, str]]]:
