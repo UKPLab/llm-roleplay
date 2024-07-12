@@ -15,18 +15,17 @@ class Model:
         self.conv_template = cfg.conv_template
         self.spec_tokens = None
         self.aim_run = None
-        self.model = None
-        self.tokenizer = None
         self.role = role
         self.history = []
-        self._get_model()
+        self._model = None
 
     @staticmethod
     def get_model(cfg, role):
         return hydra.utils.instantiate(cfg.type, cfg, role)
 
-    def _get_model(self):
-        raise NotImplementedError("method '_get_model' is not implemented")
+    @property
+    def model(self):
+        raise NotImplementedError("property 'model' instantiation is not implemented")
 
     def get_prompt(self, turn, response_msg, persona=None, instructions=None):
         raise NotImplementedError("method 'get_prompt' is not implemented")

@@ -1,5 +1,4 @@
 import random
-from typing import Tuple
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -17,21 +16,29 @@ class CausalLMModel(Model):
 
     def __init__(self, cfg, role) -> None:
         super().__init__(cfg, role)
+        self._tokenizer = None
 
-    def _get_model(self) -> Tuple[AutoModelForCausalLM, AutoTokenizer]:
-        self.model = AutoModelForCausalLM.from_pretrained(
-            self.cfg.name,
-            cache_dir=self.cfg.cache_dir,
-            device_map=Device.get_device(),
-            torch_dtype=eval_dtype(self.cfg.dtype),
-            token=self.cfg.api_token,
-        )
+    @property
+    def model(self):
+        if self._model is None:
+            self._model = AutoModelForCausalLM.from_pretrained(
+                self.cfg.name,
+                cache_dir=self.cfg.cache_dir,
+                device_map=Device.get_device(),
+                torch_dtype=eval_dtype(self.cfg.dtype),
+                token=self.cfg.api_token,
+            )
 
-        for param in self.model.parameters():
-            param.requires_grad = False
+            for param in self._model.parameters():
+                param.requires_grad = False
+            self._model.eval()
+        return self._model
 
-        self.tokenizer = AutoTokenizer.from_pretrained(self.cfg.name)
-        self.model.eval()
+    @property
+    def tokenizer(self):
+        if self._tokenizer is None:
+            self._tokenizer = AutoTokenizer.from_pretrained(self.cfg.name)
+        return self._tokenizer
 
     def get_prompt(self, turn, response_msg=None, persona=None, instructions=None):
         if self.role == "model_inquirer":

@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from urartu.common.device import Device
 from urartu.utils.dtype import eval_dtype
@@ -15,25 +13,34 @@ class PipelineModel(Model):
 
     def __init__(self, cfg, role) -> None:
         super().__init__(cfg, role)
+        self._tokenizer = None
 
-    def _get_model(self) -> Tuple[AutoModelForCausalLM, AutoTokenizer]:
-        model = AutoModelForCausalLM.from_pretrained(
-            self.cfg.name,
-            cache_dir=self.cfg.cache_dir,
-            device_map=Device.get_device(),
-            torch_dtype=eval_dtype(self.cfg.dtype),
-            token=self.cfg.api_token,
-        )
-        self.tokenizer = AutoTokenizer.from_pretrained(self.cfg.name)
+    @property
+    def model(self):
+        if self._model is None:
+            clm_model = AutoModelForCausalLM.from_pretrained(
+                self.cfg.name,
+                cache_dir=self.cfg.cache_dir,
+                device_map=Device.get_device(),
+                torch_dtype=eval_dtype(self.cfg.dtype),
+                token=self.cfg.api_token,
+            )
 
-        self.model = pipeline(
-            "text-generation",
-            model=model,
-            tokenizer=self.tokenizer,
-            torch_dtype=eval_dtype(self.cfg.dtype),
-            device_map=Device.get_device(),
-            eos_token_id=self.tokenizer.eos_token_id,
-        )
+            self._model = pipeline(
+                "text-generation",
+                model=clm_model,
+                tokenizer=self.tokenizer,
+                torch_dtype=eval_dtype(self.cfg.dtype),
+                device_map=Device.get_device(),
+                eos_token_id=self.tokenizer.eos_token_id,
+            )
+        return self._model
+    
+    @property
+    def tokenizer(self):
+        if self._tokenizer is None:
+            self._tokenizer = AutoTokenizer.from_pretrained(self.cfg.name)
+        return self._tokenizer
 
     def get_prompt(self, turn, response_msg=None, persona=None, instructions=None):
         if self.role == "model_inquirer":

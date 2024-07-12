@@ -3,7 +3,7 @@ from typing import Tuple, Union
 import tiktoken
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 from langchain_openai import AzureChatOpenAI
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM
 
 from llm_roleplay.common.model import Model
 
@@ -12,14 +12,17 @@ class OpenAIModel(Model):
     def __init__(self, cfg, role) -> None:
         super().__init__(cfg, role)
 
-    def _get_model(self) -> Tuple[AutoModelForCausalLM, AutoTokenizer]:
-        self.model = AzureChatOpenAI(
-            deployment_name=self.cfg.name,
-            openai_api_type=self.cfg.openai_api_type,
-            openai_api_version=self.cfg.openai_api_version,
-            azure_endpoint=self.cfg.azure_openai_endpoint,
-            openai_api_key=self.cfg.azure_openai_api_key,
-        )
+    @property
+    def model(self) -> AutoModelForCausalLM:
+        if self._model is None:
+            self._model = AzureChatOpenAI(
+                deployment_name=self.cfg.name,
+                openai_api_type=self.cfg.openai_api_type,
+                openai_api_version=self.cfg.openai_api_version,
+                azure_endpoint=self.cfg.azure_openai_endpoint,
+                openai_api_key=self.cfg.azure_openai_api_key,
+            )
+        return self._model
 
     def get_prompt(self, turn, response_msg, persona=None, instructions=None):
         if self.role == "model_inquirer":
