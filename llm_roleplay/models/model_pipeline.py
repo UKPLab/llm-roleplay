@@ -127,11 +127,10 @@ class ModelPipeline(Model):
                 turn_response = turn_response.split(self_reply_token)[0]
                 self.aim_run["num_self_replies"] += 1
 
+        turn_response = turn_response.lstrip()
         model_output_template = self.conv_template.model_output.replace(
             self.spec_tokens.model_answer, turn_response
         )
-
-        # del output_tokenized
 
         return turn_response, model_output_template
 
