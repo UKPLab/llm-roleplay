@@ -121,10 +121,10 @@ class TestRoleplay(unittest.TestCase):
         text_record = next(iter(text_seq.data), None)
         self.assertIsNotNone(text_record, "No text records found in AIM run tracking")
 
-    @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
+    @patch("llm_roleplay.models.model_openai.ModelOpenAI.generate")
     @patch("llm_roleplay.models.model_pipeline.ModelPipeline.generate")
     @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.generate")
-    @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
+    @patch("llm_roleplay.models.model_openai.ModelOpenAI.model")
     @patch("llm_roleplay.models.model_pipeline.ModelPipeline.model")
     @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.model")
     def test_initialization(
@@ -182,10 +182,10 @@ class TestRoleplay(unittest.TestCase):
         assert isinstance(dialogue_generator.model_responder, getattr(module, class_name)), f"The 'model_responder' should be an instance of {class_name} from {module_name}, but got {type(dialogue_generator.model_responder).__name__}"
 
 
-    @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
+    @patch("llm_roleplay.models.model_openai.ModelOpenAI.generate")
     @patch("llm_roleplay.models.model_pipeline.ModelPipeline.generate")
     @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.generate")
-    @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
+    @patch("llm_roleplay.models.model_openai.ModelOpenAI.model")
     @patch("llm_roleplay.models.model_pipeline.ModelPipeline.model")
     @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.model")
     @patch("torch.cuda.empty_cache")
@@ -223,10 +223,10 @@ class TestRoleplay(unittest.TestCase):
 
         mock_empty_cache.assert_called()
 
-    @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
+    @patch("llm_roleplay.models.model_openai.ModelOpenAI.generate")
     @patch("llm_roleplay.models.model_pipeline.ModelPipeline.generate")
     @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.generate")
-    @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
+    @patch("llm_roleplay.models.model_openai.ModelOpenAI.model")
     @patch("llm_roleplay.models.model_pipeline.ModelPipeline.model")
     @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.model")
     def test_dialogue_generation(
