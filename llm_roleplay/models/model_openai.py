@@ -8,7 +8,7 @@ from transformers import AutoModelForCausalLM
 from llm_roleplay.common.model import Model
 
 
-class OpenAIModel(Model):
+class ModelOpenAI(Model):
     def __init__(self, cfg, role) -> None:
         super().__init__(cfg, role)
 

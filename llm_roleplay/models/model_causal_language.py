@@ -8,7 +8,7 @@ from urartu.utils.dtype import eval_dtype
 from llm_roleplay.common.model import Model
 
 
-class CausalLMModel(Model):
+class ModelCausalLanguage(Model):
     SELF_REPLY_TOKENS = {
         "llama": "[INST",
         "vicuna": "### Human:",
@@ -129,7 +129,7 @@ class CausalLMModel(Model):
         turn_response = output_o.replace(model_prompt_o, "", 1)
 
         # ----------------------------------- prevent potential self-reply -----------------------------------
-        for self_reply_token in CausalLMModel.SELF_REPLY_TOKENS.values():
+        for self_reply_token in ModelCausalLanguage.SELF_REPLY_TOKENS.values():
             if self_reply_token in turn_response:
                 turn_response = turn_response.split(self_reply_token)[0]
                 self.aim_run["num_self_replies"] += 1

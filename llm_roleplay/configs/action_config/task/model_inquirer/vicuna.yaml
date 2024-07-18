@@ -1,5 +1,5 @@
 type:
-  _target_: llm_roleplay.models.causal_lm_model.CausalLMModel
+  _target_: llm_roleplay.models.model_causal_language.ModelCausalLanguage
 name: "lmsys/vicuna-13b-v1.5-16k"
 cache_dir: ""
 dtype: torch.float16

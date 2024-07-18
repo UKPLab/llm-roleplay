@@ -79,12 +79,12 @@ aim up
 Let's get started with generating dialogues using the `llm-roleplay` action. The process is simple: just provide the name of the configuration file containing the action, followed by the action name itself. For the `llm-roleplay` action, we'll initiate it by using the Mistral 8x7B model as the inquirer. 🎇
 
 ```bash
-urartu launch --name=llm_roleplay action_config=dialogue_generator +action_config/task/model_inquirer=mixtral +action_config/task/model_responder=llama action_config.task.model_inquirer.api_token="YOUR_TOKEN"
+urartu launch --name=llm_roleplay action_config=dialogue_generator aim=aim slurm=slurm +action_config/task/model_inquirer=mixtral +action_config/task/model_responder=llama action_config.task.model_inquirer.api_token="YOUR_TOKEN"
 ```
 
-The `action_config` parameter specifies which configuration file to use to run the action. Afterward, we define the configuration file for the inquirer using the `model_inquirer` argument and set the configuration for the responder with the `model_responder` argument.
+The `aim` and `slurm` configs read the Aim and Slurm configurations from `aim` and `slurm` files which are located in `llm_roleplay/configs_{username}/aim/aim.yaml` and `llm_roleplay/configs_{username}/slurm/slurm.yaml` respectively. The `action_config` parameter specifies which configuration file to use to run the action. Afterward, we define the configuration file for the inquirer using the `model_inquirer` argument and set the configuration for the responder with the `model_responder` argument.
 
-To execute the command on a Slurm cluster, modify the `llm_roleplay/configs/action_config/dialogue_generator.yaml` file with the corresponding fields, and then use the same command to run the job. For more details on how to edit the configuration files, please refer to the upcoming sections.
+To execute the command on a Slurm cluster, modify the `llm_roleplay/configs_{username}/slurm/slurm.yaml` file with the corresponding fields, and then use the same command to run the job. For more details on how to edit the configuration files, please refer to the upcoming sections.
 
 > **Huggingface Authentication**
 > You might need to log in to HuggingFace to authenticate your use of Mistral 8x7B. To do this, use the `huggingface-cli` login command and provide your access token.

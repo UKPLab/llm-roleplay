@@ -5,7 +5,7 @@ from urartu.utils.dtype import eval_dtype
 from llm_roleplay.common.model import Model
 
 
-class PipelineModel(Model):
+class ModelPipeline(Model):
     SELF_REPLY_TOKENS = {
         "llama": "[INST",
         "vicuna": "### Human:",
@@ -122,7 +122,7 @@ class PipelineModel(Model):
         turn_response = output_o.replace(model_prompt_o, "", 1)
 
         # ----------------------------------- prevent potential self-reply -----------------------------------
-        for self_reply_token in PipelineModel.SELF_REPLY_TOKENS.values():
+        for self_reply_token in ModelPipeline.SELF_REPLY_TOKENS.values():
             if self_reply_token in turn_response:
                 turn_response = turn_response.split(self_reply_token)[0]
                 self.aim_run["num_self_replies"] += 1

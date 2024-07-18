@@ -24,7 +24,7 @@ class TestRoleplay(unittest.TestCase):
                     "task": {
                         "num_turns": 2,
                         "model_inquirer": {
-                            "type": {"_target_": "llm_roleplay.models.causal_lm_model.CausalLMModel"},
+                            "type": {"_target_": "llm_roleplay.models.model_causal_language.ModelCausalLanguage"},
                             "name": "mistralai/Mixtral-8x7B-Instruct-v0.1",
                             "cache_dir": "",
                             "dtype": "torch.float16",
@@ -48,7 +48,7 @@ class TestRoleplay(unittest.TestCase):
                             "idx_of_possible_prompt": 0,
                         },
                         "model_responder": {
-                            "type": {"_target_": "llm_roleplay.models.pipeline_model.PipelineModel"},
+                            "type": {"_target_": "llm_roleplay.models.model_pipeline.ModelPipeline"},
                             "name": "models--llama-2-hf/13B-Chat",
                             "cache_dir": "",
                             "dtype": "torch.float16",
@@ -63,7 +63,7 @@ class TestRoleplay(unittest.TestCase):
                             },
                         },
                         "dataset": {
-                            "type": {"_target_": "llm_roleplay.datasets.hf_datasets.HFDatasets"},
+                            "type": {"_target_": "llm_roleplay.datasets.hf.dataset_from_dict.DatasetFromDict"},
                             "input_key": "instruction",
                             "data": {
                                 "instruction": [
@@ -122,11 +122,11 @@ class TestRoleplay(unittest.TestCase):
         self.assertIsNotNone(text_record, "No text records found in AIM run tracking")
 
     @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel.generate")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.generate")
+    @patch("llm_roleplay.models.model_pipeline.ModelPipeline.generate")
+    @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.generate")
     @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel.model")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.model")
+    @patch("llm_roleplay.models.model_pipeline.ModelPipeline.model")
+    @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.model")
     def test_initialization(
         self,
         mock_model_clm,
@@ -183,11 +183,11 @@ class TestRoleplay(unittest.TestCase):
 
 
     @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel.generate")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.generate")
+    @patch("llm_roleplay.models.model_pipeline.ModelPipeline.generate")
+    @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.generate")
     @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel.model")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.model")
+    @patch("llm_roleplay.models.model_pipeline.ModelPipeline.model")
+    @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.model")
     @patch("torch.cuda.empty_cache")
     def test_resource_management(
         self,
@@ -224,11 +224,11 @@ class TestRoleplay(unittest.TestCase):
         mock_empty_cache.assert_called()
 
     @patch("llm_roleplay.models.openai_model.OpenAIModel.generate")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel.generate")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.generate")
+    @patch("llm_roleplay.models.model_pipeline.ModelPipeline.generate")
+    @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.generate")
     @patch("llm_roleplay.models.openai_model.OpenAIModel.model")
-    @patch("llm_roleplay.models.pipeline_model.PipelineModel.model")
-    @patch("llm_roleplay.models.causal_lm_model.CausalLMModel.model")
+    @patch("llm_roleplay.models.model_pipeline.ModelPipeline.model")
+    @patch("llm_roleplay.models.model_causal_language.ModelCausalLanguage.model")
     def test_dialogue_generation(
         self,
         mock_model_clm,
