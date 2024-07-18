@@ -63,7 +63,7 @@ class TestRoleplay(unittest.TestCase):
                             },
                         },
                         "dataset": {
-                            "type": {"_target_": "llm_roleplay.datasets.hf.dataset_from_dict.DatasetFromDict"},
+                            "type": {"_target_": "urartu.datasets.hf.dataset_from_dict.DatasetFromDict"},
                             "input_key": "instruction",
                             "data": {
                                 "instruction": [
