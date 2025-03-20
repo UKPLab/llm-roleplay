@@ -20,7 +20,7 @@ action_config:
 
     dataset:
       type:
-        _target_: urartu.datasets.hf.dataset_from_dict.DatasetFromDict
+        _target_: urartu.datasets.DatasetFromDict
       input_key: "instruction"
       data:
         instruction:
