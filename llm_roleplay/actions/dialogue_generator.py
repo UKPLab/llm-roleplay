@@ -45,6 +45,9 @@ class DialogueGenerator(Action):
         os.makedirs(self.records_dir, exist_ok=True)
 
         self.dataset = Dataset.get_dataset(self.task_cfg.dataset)
+        print("----------------------------------------------------------------")
+        print(self.dataset.dataset)
+        print("----------------------------------------------------------------")
         self.personas = Persona.get_personas(self.task_cfg.persona)
 
         self.model_inquirer = Model.get_model(self.task_cfg.model_inquirer, role="model_inquirer")

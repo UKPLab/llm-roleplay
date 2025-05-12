@@ -45,14 +45,6 @@ Plus, an alias will be created, allowing you to access llm-roleplay from any dir
 urartu --help
 ```
 
-Now, to register `llm-roleplay` under the corresponding name in `urartu` we need to run the following command by providing the path where the module is located, for more info refere to [UrarTU's documentation](https://pypi.org/project/urartu/):
-
-```bash
-urartu register --name=llm_roleplay --path=PATH_TO_ROLEPLAY/llm_roleplay
-```
-
-After this you can run `urartu -h` again to see the available modules under `launch` command and make sure that `llm_roleplay` is present there.
-
 ### Exploring the Experiments
 
 Before diving into using `llm-roleplay`, let's set up [Aim](https://github.com/aimhubio/aim). This tool will track our experiment metadata and generated dialogues, storing them locally on our system.
@@ -78,9 +70,17 @@ aim up
 
 Let's get started with generating dialogues using the `llm-roleplay` action. The process is simple: just provide the name of the configuration file containing the action, followed by the action name itself. For the `llm-roleplay` action, we'll initiate it by using the Mistral 8x7B model as the inquirer. 🎇
 
+Step 1: Navigate to the project directory
 ```bash
-urartu launch --name=llm_roleplay action_config=dialogue_generator aim=aim slurm=slurm +action_config/task/model_inquirer=mixtral +action_config/task/model_responder=llama action_config.task.model_inquirer.api_token="YOUR_TOKEN"
+cd llm_roleplay
 ```
+
+Step 2: Run the dialogue generation command
+```bash
+urartu action_config=dialogue_generator aim=aim slurm=slurm +action_config/task/model_inquirer=mixtral +action_config/task/model_responder=llama action_config.task.model_inquirer.api_token="YOUR_TOKEN"
+```
+
+🔐 Don’t forget to replace "YOUR_TOKEN" with your actual API token!
 
 The `aim` and `slurm` configs read the Aim and Slurm configurations from `aim` and `slurm` files which are located in `llm_roleplay/configs_{username}/aim/aim.yaml` and `llm_roleplay/configs_{username}/slurm/slurm.yaml` respectively. The `action_config` parameter specifies which configuration file to use to run the action. Afterward, we define the configuration file for the inquirer using the `model_inquirer` argument and set the configuration for the responder with the `model_responder` argument.
 
@@ -112,7 +112,7 @@ You have two flexible options for tailoring your configurations in `llm-roleplay
 2.  **CLI Approach**: For those who prefer a command-line interface (CLI) approach, `urartu` offers a convenient method. You can enhance your commands with specific key-value pairs directly in the CLI. For example, modifying your working directory path is as simple as:
 
     ```bash
-    urartu launch --name=llm_roleplay action_config=dialogue_generator action_config.workdir=PATH_TO_WORKDIR
+    urartu action_config=dialogue_generator action_config.workdir=PATH_TO_WORKDIR
     ```
 
 Choose the method that suits your workflow best and enjoy the flexibility `urartu` provides for crafting custom configurations.

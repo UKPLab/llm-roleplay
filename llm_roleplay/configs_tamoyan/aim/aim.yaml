@@ -1,2 +1,3 @@
+use_aim: true
 repo: aim://0.0.0.0:53800
 log_system_params: true

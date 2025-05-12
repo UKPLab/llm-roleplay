@@ -1,6 +1,7 @@
 # @package _global_
 action_name: dialogue_generator
 seed: 5
+debug: false
 
 hydra:
   sweeper:
