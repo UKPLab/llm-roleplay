@@ -1,5 +1,6 @@
 <!--- BADGES: START --->
 
+[![arXiv](https://img.shields.io/badge/ACL-Conference-0052CC?logo=acl&logoColor=white&style=for‑the‑badge)](https://aclanthology.org/2025.sicon-1.1/)
 [![arXiv](https://img.shields.io/badge/arXiv-red?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2407.03974)
 [![PyPI - Package Version](https://img.shields.io/pypi/v/llm-roleplay?logo=pypi&style=flat&color=orange)](https://pypi.org/project/llm-roleplay/)
 [![GitHub - License](https://img.shields.io/github/license/UKPLab/roleplay)](https://opensource.org/licenses/Apache-2.0)
@@ -135,14 +136,22 @@ You're all set to dive into goal-oriented, persona-based, diverse, and multi-tur
 Please use the following citation:
 
 ```
-@misc{tamoyan2024llmroleplaysimulatinghumanchatbot,
-  title={LLM Roleplay: Simulating Human-Chatbot Interaction},
-  author={Hovhannes Tamoyan and Hendrik Schuff and Iryna Gurevych},
-  year={2024},
-  eprint={2407.03974},
-  archivePrefix={arXiv},
-  primaryClass={cs.CL},
-  url={https://arxiv.org/abs/2407.03974},
+@inproceedings{tamoyan-etal-2025-llm,
+    title = "{LLM} Roleplay: Simulating Human-Chatbot Interaction",
+    author = "Tamoyan, Hovhannes  and
+      Schuff, Hendrik  and
+      Gurevych, Iryna",
+    editor = "Hale, James  and
+      Deuksin Kwon, Brian  and
+      Dutt, Ritam",
+    booktitle = "Proceedings of the Third Workshop on Social Influence in Conversations (SICon 2025)",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.sicon-1.1/",
+    pages = "1--26",
+    ISBN = "979-8-89176-266-4",
 }
 ```
 
