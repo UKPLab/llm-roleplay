@@ -11,7 +11,7 @@
 # LLM Roleplay: Simulating Human-Chatbot Interaction
 
 Roleplay is a Python package that provides an easy method for generating goal-oriented, persona-based multi-turn dialogues, simulating diverse human-chatbot interactions.
-This repository contains the code and data for the LLM Roleplay method, as presented in the paper [LLM Roleplay: Simulating Human-Chatbot Interaction](https://arxiv.org). It includes all the experiment codes and the necessary data to replicate them, as described in the paper.
+This repository contains the code and data for the LLM Roleplay method, as presented in the paper [LLM Roleplay: Simulating Human-Chatbot Interaction](https://aclanthology.org/2025.sicon-1.1/). It includes all the experiment codes and the necessary data to replicate them, as described in the paper.
 
 ## More About Roleplay
 
