@@ -1,4 +1,4 @@
-urartu
+urartu~=3.0
 jsonlines
 tiktoken
 langchain
